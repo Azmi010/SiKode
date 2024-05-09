@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
+import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/views/login_page.dart';
 
@@ -29,46 +29,11 @@ class _ProfilState extends State<Profil> {
     super.dispose();
   }
 
-  Future<void> _showPickerDialog() async {
+  Future<void> _showPickerDialog(BuildContext context) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Pilih Sumber Gambar"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: const Text("Kamera"),
-                  onTap: () async {
-                    Navigator.of(context).pop();
-                    final pickedFile = await ImagePicker().pickImage(
-                      source: ImageSource.camera,
-                    );
-                    if (pickedFile != null) {
-                      setState(() {
-                      });
-                    }
-                  },
-                ),
-                const SizedBox(height: 15),
-                GestureDetector(
-                  child: const Text("Galeri"),
-                  onTap: () async {
-                    Navigator.of(context).pop();
-                    final pickedFile = await ImagePicker().pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    if (pickedFile != null) {
-                      setState(() {
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
+        return const ImagePickerDialog();
       },
     );
   }
@@ -115,17 +80,13 @@ class _ProfilState extends State<Profil> {
                       ),
                       padding: const EdgeInsets.all(3),
                       child: IconButton(
-                          onPressed: () async {
-                            await _showPickerDialog();
-                          },
-                          icon: const Icon(
-                            Icons.camera_alt_outlined,
-                          )),
-                      // child: IconButton(
-                      //   Icons.camera_alt_outlined,
-                      //   color: Colors.white,
-                      //   size: 30,
-                      // ),
+                        onPressed: () async {
+                          await _showPickerDialog(context);
+                        },
+                        icon: const Icon(
+                          Icons.camera_alt_outlined,
+                        ),
+                      ),
                     ),
                   ),
                 ],
