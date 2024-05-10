@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sikode/views/login_page.dart';
+import 'package:sikode/views/auth/login_page.dart';
 
 void main() {
   runApp(const SiKode());

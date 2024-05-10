@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/textformfield.dart';
-import 'package:sikode/views/bottom_navbar.dart';
-import 'package:sikode/views/lupa_sandi.dart';
-import 'package:sikode/views/register.dart';
+import 'package:sikode/views/admin/bottom_navbar_admin.dart';
+import 'package:sikode/views/auth/lupa_sandi.dart';
+import 'package:sikode/views/auth/register.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => const Navbar()),
+                        MaterialPageRoute(builder: (context) => const NavbarAdmin()),
                         (route) => false);
                   }
                 },

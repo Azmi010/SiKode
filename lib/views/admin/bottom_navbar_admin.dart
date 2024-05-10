@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sikode/views/homepage.dart';
-import 'package:sikode/views/informasi_page.dart';
-import 'package:sikode/views/profil_page.dart';
+// import 'package:sikode/views/admin/homepage.dart';
+import 'package:sikode/views/admin/homepage_admin.dart';
+import 'package:sikode/views/admin/informasi_page.dart';
+import 'package:sikode/views/admin/profil_page.dart';
 
-class Navbar extends StatefulWidget {
-  const Navbar({super.key});
+class NavbarAdmin extends StatefulWidget {
+  const NavbarAdmin({super.key});
 
   @override
-  State<Navbar> createState() => _NavbarState();
+  State<NavbarAdmin> createState() => _NavbarAdminState();
 }
 
-class _NavbarState extends State<Navbar> {
+class _NavbarAdminState extends State<NavbarAdmin> {
   int currentPageIndex = 0;
 
   @override
@@ -19,7 +20,7 @@ class _NavbarState extends State<Navbar> {
       body: IndexedStack(
         index: currentPageIndex,
         children: const <Widget>[
-          HomePage(),
+          HomePageAdmin(),
           Informasi(),
           Profil(),
         ],
@@ -27,6 +28,15 @@ class _NavbarState extends State<Navbar> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
         currentIndex: currentPageIndex,
+        selectedItemColor: Colors.white,
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'Montserrat',
+          color: Colors.black,
+        ),
+        selectedLabelStyle: const TextStyle(
+          fontFamily: 'Montserrat',
+          color: Colors.white,
+        ),
         onTap: (int index) {
           setState(() {
             currentPageIndex = index;
@@ -35,24 +45,26 @@ class _NavbarState extends State<Navbar> {
         items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined,
-              size: 34,
-              color: Colors.white,
+              Icons.home_filled,
+              size: 30,
             ),
             label: 'Beranda',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
-              'assets/images/informasi.png',
-              width: 35,
+              'assets/images/informasi_unselected.png',
+              width: 30,
+            ),
+            activeIcon: Image.asset(
+              'assets/images/informasi_selected.png',
+              width: 30,
             ),
             label: 'Informasi',
           ),
           const BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              size: 34,
-              color: Colors.white,
+              size: 30,
             ),
             label: 'Profil',
           ),

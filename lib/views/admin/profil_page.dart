@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
-import 'package:sikode/views/login_page.dart';
+import 'package:sikode/views/auth/login_page.dart';
 
 class Profil extends StatefulWidget {
   const Profil({super.key});
