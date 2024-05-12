@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sikode/utils/card_home.dart';
+import 'package:sikode/views/admin/jadwal_ronda_admin.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomePageAdmin extends StatefulWidget {
@@ -13,10 +14,6 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
-        automaticallyImplyLeading: false,
-      ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -24,10 +21,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   color: const Color.fromRGBO(1, 188, 177, 1),
                   width: 400,
-                  height: 250,
+                  height: 300,
                   child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -107,7 +105,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
               ],
             ),
             Positioned(
-              top: 200,
+              top: 250,
               left: 42,
               child: SizedBox(
                 height: 126,
@@ -128,23 +126,32 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/jadwal_ronda.png',
-                            width: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Jadwal Ronda",
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const JadwalRondaAdmin()),
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/jadwal_ronda.png',
+                              width: 35,
                             ),
-                          )
-                        ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Jadwal Ronda",
+                              style: TextStyle(
+                                fontFamily: 'montserrat',
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
