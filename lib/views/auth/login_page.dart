@@ -35,8 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Padding(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Form(
           key: _formKey,
@@ -114,7 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => const NavbarAdmin()),
+                        MaterialPageRoute(
+                            builder: (context) => const NavbarAdmin(initialIndex: 0,)),
                         (route) => false);
                   }
                 },
@@ -143,6 +144,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

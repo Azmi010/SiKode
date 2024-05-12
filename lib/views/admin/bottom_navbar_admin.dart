@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 // import 'package:sikode/views/admin/homepage.dart';
 import 'package:sikode/views/admin/homepage_admin.dart';
-import 'package:sikode/views/admin/informasi_page.dart';
-import 'package:sikode/views/admin/profil_page.dart';
+import 'package:sikode/views/admin/informasi_page_admin.dart';
+import 'package:sikode/views/admin/profil_page_admin.dart';
 
 class NavbarAdmin extends StatefulWidget {
-  const NavbarAdmin({super.key});
+  final int initialIndex;
+  const NavbarAdmin({super.key, required this.initialIndex});
 
   @override
   State<NavbarAdmin> createState() => _NavbarAdminState();
 }
 
 class _NavbarAdminState extends State<NavbarAdmin> {
-  int currentPageIndex = 0;
+  late int currentPageIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPageIndex = widget.initialIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
