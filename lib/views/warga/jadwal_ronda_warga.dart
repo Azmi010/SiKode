@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sikode/views/admin/bottom_navbar_admin.dart';
-import 'package:sikode/views/admin/edit_jadwal_ronda.dart';
+import 'package:sikode/views/warga/bottom_navbar_warga.dart';
 
-class JadwalRondaAdmin extends StatefulWidget {
-  const JadwalRondaAdmin({super.key});
+class JadwalRondaWarga extends StatefulWidget {
+  const JadwalRondaWarga({super.key});
 
   @override
-  State<JadwalRondaAdmin> createState() => _JadwalRondaAdminState();
+  State<JadwalRondaWarga> createState() => _JadwalRondaWargaState();
 }
 
-class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
+class _JadwalRondaWargaState extends State<JadwalRondaWarga> {
   final List<String> _daysOfWeek = [
     'Minggu',
     'Senin',
@@ -40,7 +39,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const NavbarAdmin(initialIndex: 0),
+                builder: (context) => const NavbarWarga(initialIndex: 0),
               ),
             );
           },
@@ -102,7 +101,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: _daysOfWeek.length,
+                itemCount: 7,
                 itemBuilder: (context, index) {
                   return Card(
                     elevation: 2,
@@ -123,20 +122,6 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.edit_square),
-                            color: const Color.fromRGBO(1, 188, 177, 1),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditJadwalRonda(
-                                    title: _daysOfWeek[index],
-                                  ),
-                                ),
-                              );
-                            },
                           ),
                         ],
                       ),
