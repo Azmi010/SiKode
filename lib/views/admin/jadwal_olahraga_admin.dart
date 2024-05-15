@@ -1,6 +1,4 @@
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter/widgets.dart";
 import "package:sikode/views/admin/edit_jadwal_olahraga.dart";
 import "package:sikode/views/admin/tambah_jadwal_olahraga.dart";
 
@@ -90,7 +88,7 @@ class _JadwalOlahragaState extends State<JadwalOlahraga> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 100,
+                                              width: 40,
                                             ),
                                             IconButton(
                                                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>EditJadwalOlahraga()));},
@@ -146,7 +144,7 @@ class _JadwalOlahragaState extends State<JadwalOlahraga> {
                  {Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahJadwalOlahraga()));}
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 85),
+                  margin: EdgeInsets.only(bottom: 10),
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
