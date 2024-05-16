@@ -85,6 +85,7 @@ class _ProfilState extends State<Profil> {
                         },
                         icon: const Icon(
                           Icons.camera_alt_outlined,
+                          color: Colors.white,
                         ),
                       ),
                     ),

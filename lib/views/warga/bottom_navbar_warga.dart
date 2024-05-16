@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sikode/views/warga/homepage_warga.dart';
-import 'package:sikode/views/warga/informasi_page_warga.dart';
+import 'package:sikode/views/warga/informasi_warga.dart';
 import 'package:sikode/views/warga/profil_page_warga.dart';
 
 class NavbarWarga extends StatefulWidget {
