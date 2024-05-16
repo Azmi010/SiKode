@@ -68,15 +68,10 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () async {
-                      await _showPickerDialog(context);
-                    },
-                    icon: const Icon(
-                      Icons.upload_file_sharp,
-                      size: 60,
-                      color: Colors.black,
-                    ),
-                  )
+                      onPressed: () async {
+                        await _showPickerDialog(context);
+                      },
+                      icon: Image.asset('assets/images/upload_gambar.png'))
                 ],
               ),
               SizedBox(height: 60),

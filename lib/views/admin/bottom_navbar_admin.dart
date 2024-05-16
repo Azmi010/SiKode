@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:sikode/views/admin/homepage.dart';
 import 'package:sikode/views/admin/homepage_admin.dart';
-import 'package:sikode/views/admin/informasi_page_admin.dart';
+import 'package:sikode/views/admin/informasi_admin.dart';
 import 'package:sikode/views/admin/profil_page_admin.dart';
 
 class NavbarAdmin extends StatefulWidget {
@@ -28,7 +28,7 @@ class _NavbarAdminState extends State<NavbarAdmin> {
         index: currentPageIndex,
         children: const <Widget>[
           HomePageAdmin(),
-          Informasi(),
+          InformasiAdmin(),
           Profil(),
         ],
       ),
