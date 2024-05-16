@@ -13,7 +13,6 @@ class HomePageWarga extends StatefulWidget {
 }
 
 class _HomePageWargaState extends State<HomePageWarga> {
-  get y => null;
 
   @override
   Widget build(BuildContext context) {
