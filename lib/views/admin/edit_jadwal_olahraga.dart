@@ -44,14 +44,16 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Edit Jadwal Olahraga",
+            style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: Color.fromRGBO(1, 188, 177, 1),
+          backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(
             children: [
               Stack(
@@ -68,31 +70,35 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
                     ),
                   ),
                   IconButton(
+                      iconSize: 26,
                       onPressed: () async {
                         await _showPickerDialog(context);
                       },
-                      icon: Image.asset('assets/images/upload_gambar.png'))
+                      icon: Image.asset(
+                        'assets/images/upload_gambar.png',
+                        width: 26,
+                      ))
                 ],
               ),
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
               CustomTextField(
                 controller: namakegiatanController,
                 hintText: "Lari Bersama",
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               CustomTextField(
                 controller: tanggalkegiatanController,
                 hintText: "Minggu, 5 Mei 2023",
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               CustomTextField(
                 controller: lokasikegiatanController,
                 hintText: "Lapangan Sidomulyo",
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               CustomButton(
                 text: "Simpan",
-                backgroundColor: Color.fromRGBO(1, 188, 177, 1),
+                backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
                 onPressed: () {
                   // Simpan action
                 },

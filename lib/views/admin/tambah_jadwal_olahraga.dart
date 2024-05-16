@@ -83,7 +83,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
             Container(
               alignment: Alignment.topLeft,
               child: const Text(
-                "Hari, Tgl/Bln/Thn",
+                "Waktu",
                 style: TextStyle(
                   fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
@@ -96,7 +96,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
             ),
             CustomTextField(
               controller: tanggalkegiatanController,
-              hintText: "Masukkan Deskripsi",
+              hintText: "Hari, Tgl/Bln/Thn",
             ),
             const SizedBox(height: 20),
             Container(
