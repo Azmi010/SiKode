@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sikode/utils/card_home.dart';
+import 'package:sikode/views/admin/jadwal_olahraga_admin.dart';
 import 'package:sikode/views/admin/jadwal_ronda_admin.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -153,23 +155,32 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                           ],
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/jadwal_olahraga.png',
-                            width: 35,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            "Jadwal Olahraga",
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const JadwalOlahragaAdmin()),
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/jadwal_olahraga.png',
+                              width: 35,
                             ),
-                          )
-                        ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Jadwal Olahraga",
+                              style: TextStyle(
+                                fontFamily: 'montserrat',
+                              ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
