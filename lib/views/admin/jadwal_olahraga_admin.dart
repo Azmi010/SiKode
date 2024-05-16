@@ -3,14 +3,14 @@ import "package:sikode/views/admin/edit_jadwal_olahraga.dart";
 import "package:sikode/views/admin/tambah_jadwal_olahraga.dart";
 
 
-class JadwalOlahraga extends StatefulWidget {
-  const JadwalOlahraga({super.key});
+class JadwalOlahragaAdmin extends StatefulWidget {
+  const JadwalOlahragaAdmin({super.key});
 
   @override
-  State<JadwalOlahraga> createState() => _JadwalOlahragaState();
+  State<JadwalOlahragaAdmin> createState() => _JadwalOlahragaAdminState();
 }
 
-class _JadwalOlahragaState extends State<JadwalOlahraga> {
+class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

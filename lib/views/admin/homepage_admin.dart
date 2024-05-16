@@ -160,7 +160,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const JadwalOlahraga()),
+                                builder: (context) => const JadwalOlahragaAdmin()),
                           );
                         },
                         child: Column(

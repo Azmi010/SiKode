@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const NavbarAdmin(initialIndex: 0,)),
+                            builder: (context) => const NavbarWarga(initialIndex: 0,)),
                         (route) => false);
                   }
                 },
