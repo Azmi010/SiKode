@@ -2,7 +2,6 @@ import "package:flutter/material.dart";
 import "package:sikode/views/admin/edit_jadwal_olahraga.dart";
 import "package:sikode/views/admin/tambah_jadwal_olahraga.dart";
 
-
 class JadwalOlahragaAdmin extends StatefulWidget {
   const JadwalOlahragaAdmin({super.key});
 
@@ -15,7 +14,10 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Jadwal Olahraga" , style: TextStyle(color: Colors.white),),
+        title: const Text(
+          "Jadwal Olahraga",
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -69,39 +71,53 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Icon(
-                                            Icons.calendar_today_outlined,
-                                            color: Colors.white,
-                                          ),
                                           const SizedBox(
-                                            width: 14,
-                                          ),
-                                          const Text(
-                                            "Minggu, 5 Mei 2024",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontFamily: 'Montserrat',
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 14,
+                                                ),
+                                                Text(
+                                                  "Minggu, 5 Mei 2024",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontFamily: 'Montserrat',
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 40,
-                                          ),
                                           IconButton(
-                                              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>EditJadwalOlahraga()));},
-                                              icon: Icon(
-                                                Icons.edit_square,
-                                                color: Colors.white,
-                                              )),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const EditJadwalOlahraga(),
+                                                ),
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.edit_square,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
                                       child: Row(
                                         children: [
                                           Icon(
@@ -114,7 +130,7 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
                                           Text(
                                             "Lapangan Sidomulyo",
                                             textAlign: TextAlign.center,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
@@ -140,15 +156,22 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
               alignment: Alignment.topRight,
               child: GestureDetector(
                 onTap: () {
-                 {Navigator.push(context, MaterialPageRoute(builder: (context)=>TambahJadwalOlahraga()));}
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TambahJadwalOlahraga(),
+                      ),
+                    );
+                  }
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   width: 50,
                   height: 50,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color.fromRGBO(1, 188, 177, 1),// Warna tombol
+                    color: Color.fromRGBO(1, 188, 177, 1), // Warna tombol
                   ),
                   child: const Icon(
                     Icons.add,

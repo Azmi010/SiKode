@@ -41,6 +41,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
@@ -95,6 +96,9 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
             CustomTextField(
               controller: deskripsicontroller,
               hintText: "Masukkan Deskripsi",
+              maxLines: 10,
+              minLines: 1,
+              keyboardType: TextInputType.multiline,
             ),
             const SizedBox(height: 20),
             Container(
@@ -110,7 +114,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
             ),
             const SizedBox(height: 10),
             Container(
-              width: 336,
+              width: double.infinity,
               height: 40,
               decoration: BoxDecoration(
                   border: Border.all(

@@ -47,7 +47,7 @@ class _InformasiAdminState extends State<InformasiAdmin> {
                         alignment: Alignment.topLeft,
                         child: SizedBox(
                           width: 375,
-                          height: 250,
+                          height: 280,
                           child: Card(
                             color: const Color.fromRGBO(1, 188, 177, 1),
                             elevation: 4,

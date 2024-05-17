@@ -4,16 +4,16 @@ import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
 
 class TambahJadwalOlahraga extends StatefulWidget {
-  const TambahJadwalOlahraga ({super.key});
+  const TambahJadwalOlahraga({super.key});
 
   @override
   State<TambahJadwalOlahraga> createState() => _TambahJadwalOlahragaState();
 }
 
 class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
-   late TextEditingController namakegiatanController;
-   late TextEditingController tanggalkegiatanController;
-   late TextEditingController lokasikegiatanController;
+  late TextEditingController namakegiatanController;
+  late TextEditingController tanggalkegiatanController;
+  late TextEditingController lokasikegiatanController;
 
   @override
   void initState() {
@@ -31,6 +31,21 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
     super.dispose();
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        tanggalkegiatanController.text =
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+      });
+    }
+  }
+
   Future<void> _showPickerDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -43,12 +58,12 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           "Tambah Jadwal Olahraga",
           style: TextStyle(
-            fontFamily: "Montserrat",
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -66,7 +81,6 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
               child: const Text(
                 "Nama Olahraga",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -85,7 +99,6 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
               child: const Text(
                 "Waktu",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -97,6 +110,16 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
             CustomTextField(
               controller: tanggalkegiatanController,
               hintText: "Hari, Tgl/Bln/Thn",
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _selectDate(
+                      context);
+                },
+                icon: const Icon(
+                  Icons.calendar_today_outlined,
+                  color: Color.fromRGBO(1, 188, 177, 1),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             Container(
@@ -104,15 +127,13 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
               child: const Text(
                 "Lokasi",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10),
-               CustomTextField(
+            const SizedBox(height: 10),
+            CustomTextField(
               controller: lokasikegiatanController,
               hintText: "Masukkan Lokasi",
             ),
@@ -120,9 +141,8 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
             Container(
               alignment: Alignment.topLeft,
               child: const Text(
-                "Masukkan Lokasi",
+                "Upload gambar",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -132,33 +152,39 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
               height: 10,
             ),
             Container(
-              width: 336,
-              height: 36,
+              width: double.infinity,
+              height: 40,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color.fromRGBO(169, 169, 169, 1),
                 ),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const SizedBox(
+                    width: 2,
+                  ),
                   const Text(
                     "Tidak ada file yang dipilih",
                     style: TextStyle(
-                      fontFamily: 'Montserrat',
                       color: Color.fromRGBO(1, 193, 139, 1),
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await _showPickerDialog(context);
-                      },
-                      style:
-                          ElevatedButton.styleFrom(shape: const LinearBorder()),
-                      child: const Text("pilih file"),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await _showPickerDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromRGBO(228, 228, 228, 1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
+                    child: const Text(
+                      "pilih file",
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

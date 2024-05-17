@@ -36,6 +36,7 @@ class CustomCard extends StatelessWidget {
                 child: Image.asset(
                   imagePath,
                   fit: BoxFit.cover,
+                  height: 132,
                 ),
               ),
               Padding(
