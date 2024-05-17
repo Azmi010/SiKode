@@ -111,6 +111,7 @@ class _DaftarState extends State<Daftar> {
                     }
                     return null;
                   },
+                  maxLines: 1,
                 ),
                 const SizedBox(
                   height: 20,
@@ -126,6 +127,7 @@ class _DaftarState extends State<Daftar> {
                     }
                     return null;
                   },
+                  maxLines: 1,
                 ),
                 const SizedBox(
                   height: 30,

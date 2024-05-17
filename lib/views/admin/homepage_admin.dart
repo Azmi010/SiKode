@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sikode/utils/card_home.dart';
 import 'package:sikode/views/admin/jadwal_olahraga_admin.dart';
 import 'package:sikode/views/admin/jadwal_ronda_admin.dart';
@@ -26,7 +25,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   color: const Color.fromRGBO(1, 188, 177, 1),
-                  width: 400,
+                  width: double.infinity,
                   height: 300,
                   child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

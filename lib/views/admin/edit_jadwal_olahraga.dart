@@ -18,9 +18,9 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
   @override
   void initState() {
     super.initState();
-    namakegiatanController = TextEditingController();
-    tanggalkegiatanController = TextEditingController();
-    lokasikegiatanController = TextEditingController();
+    namakegiatanController = TextEditingController(text: 'Lari Bersama');
+    tanggalkegiatanController = TextEditingController(text: 'Minggu, 5 Mei 2023');
+    lokasikegiatanController = TextEditingController(text: 'Lapangan Sidomulyo');
   }
 
   @override
@@ -40,9 +40,25 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        tanggalkegiatanController.text =
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text(
             "Edit Jadwal Olahraga",
@@ -89,6 +105,16 @@ class _EditJadwalOlahragaState extends State<EditJadwalOlahraga> {
               CustomTextField(
                 controller: tanggalkegiatanController,
                 hintText: "Minggu, 5 Mei 2023",
+                suffixIcon: IconButton(
+                onPressed: () {
+                  _selectDate(
+                      context);
+                },
+                icon: const Icon(
+                  Icons.calendar_today_outlined,
+                  color: Color.fromRGBO(1, 188, 177, 1),
+                ),
+              ),
               ),
               const SizedBox(height: 40),
               CustomTextField(

@@ -85,6 +85,10 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   return null;
                 },
+                maxLines: 1,
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Container(
                 alignment: Alignment.topRight,

@@ -18,8 +18,8 @@ class _ProfilState extends State<Profil> {
   @override
   void initState() {
     super.initState();
-    namaLengkapController = TextEditingController();
-    emailController = TextEditingController();
+    namaLengkapController = TextEditingController(text: 'Pengurus Desa');
+    emailController = TextEditingController(text: 'sidomulyo10@gmail.com');
   }
 
   @override
@@ -46,7 +46,6 @@ class _ProfilState extends State<Profil> {
         title: const Text(
           "Profil",
           style: TextStyle(
-            fontFamily: "Montserrat",
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -100,7 +99,6 @@ class _ProfilState extends State<Profil> {
                 child: const Text(
                   "Nama Lengkap",
                   style: TextStyle(
-                    fontFamily: "Montserrat",
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                   ),
@@ -112,6 +110,11 @@ class _ProfilState extends State<Profil> {
               CustomTextField(
                 controller: namaLengkapController,
                 hintText: "Pengurus Desa",
+                textStyle: const TextStyle(
+                  color: Color.fromRGBO(1, 193, 139, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -121,7 +124,6 @@ class _ProfilState extends State<Profil> {
                 child: const Text(
                   "Alamat Email",
                   style: TextStyle(
-                    fontFamily: "Montserrat",
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                   ),
@@ -131,7 +133,7 @@ class _ProfilState extends State<Profil> {
                 height: 10,
               ),
               CustomTextField(
-                controller: namaLengkapController,
+                controller: emailController,
                 hintText: "sidomulyo10@gmail.com",
               ),
               const SizedBox(

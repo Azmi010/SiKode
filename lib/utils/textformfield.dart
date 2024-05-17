@@ -8,6 +8,10 @@ class CustomTextField extends StatefulWidget {
   final String? label;
   final TextInputAction textInputAction;
   final FormFieldValidator<String>? validator;
+  final int? maxLines;
+  final int? minLines;
+  final TextStyle? textStyle;
+  final IconButton? suffixIcon;
 
   const CustomTextField({
     super.key,
@@ -18,11 +22,14 @@ class CustomTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.done,
     this.validator,
+    this.maxLines,
+    this.minLines,
+    this.textStyle,
+    this.suffixIcon,
   });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
-
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
@@ -33,7 +40,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         border: const OutlineInputBorder(
           borderSide: BorderSide(
             style: BorderStyle.solid,
@@ -66,12 +74,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   color: Colors.grey,
                 ),
               )
-            : null,
+            : widget.suffixIcon,
       ),
       obscureText: widget.obscureText ? _obscureText : false,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      style: const TextStyle(
+        color: Color.fromRGBO(1, 193, 139, 1),
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      ),
     );
   }
 }
