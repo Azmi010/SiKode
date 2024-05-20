@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/views/admin/bottom_navbar_admin.dart';
 import 'package:sikode/views/auth/lupa_sandi.dart';
 import 'package:sikode/views/auth/register.dart';
+import 'package:sikode/views/warga/bottom_navbar_warga.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -34,6 +37,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -111,21 +116,46 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                CustomButton(
-                  text: "Masuk",
-                  backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NavbarAdmin(
-                                    initialIndex: 0,
-                                  )),
-                          (route) => false);
-                    }
-                  },
-                ),
+                if (loginViewModel.isLoading)
+                  const CircularProgressIndicator()
+                else
+                  CustomButton(
+                    text: "Masuk",
+                    backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        bool success = await loginViewModel.login(
+                            emailController.text, kataSandiController.text);
+                        if (success) {
+                          if (loginViewModel.role == 'admin') {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const NavbarAdmin(
+                                          initialIndex: 0,
+                                        )),
+                                (route) => false);
+                          } else if (loginViewModel.role == 'warga') {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const NavbarWarga(
+                                          initialIndex: 0,
+                                        )),
+                                (route) => false);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Peran pengguna tidak dikenali.')));
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Login gagal. Cek kembali email dan kata sandi.')));
+                        }
+                      }
+                    },
+                  ),
                 const SizedBox(
                   height: 20,
                 ),
