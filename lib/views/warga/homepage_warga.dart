@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sikode/utils/card_home.dart';
 import 'package:sikode/views/warga/jadwal_olahraga_warga.dart';
 import 'package:sikode/views/warga/jadwal_ronda_warga.dart';
@@ -13,7 +12,6 @@ class HomePageWarga extends StatefulWidget {
 }
 
 class _HomePageWargaState extends State<HomePageWarga> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +22,9 @@ class _HomePageWargaState extends State<HomePageWarga> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   color: const Color.fromRGBO(1, 188, 177, 1),
-                  width: 400,
+                  width: MediaQuery.of(context).size.width,
                   height: 300,
                   child: const Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,86 +102,85 @@ class _HomePageWargaState extends State<HomePageWarga> {
                     lastDay: DateTime.now(),
                   ),
                 ),
+                const SizedBox(height: 30),
               ],
             ),
             Positioned(
               top: 250,
-              left: 42,
-              child: SizedBox(
+              left: MediaQuery.of(context).size.width * 0.5 - 150,
+              child: Container(
                 height: 126,
                 width: 300,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(17),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(17),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const JadwalRondaWarga()),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/jadwal_ronda.png',
+                            width: 35,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Jadwal Ronda",
+                            style: TextStyle(
+                              fontFamily: 'montserrat',
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const JadwalRondaWarga()),
-                          );
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/jadwal_ronda.png',
-                              width: 35,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const JadwalOlahragaWarga()),
+                        );
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/jadwal_olahraga.png',
+                            width: 35,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            "Jadwal Olahraga",
+                            style: TextStyle(
+                              fontFamily: 'montserrat',
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              "Jadwal Ronda",
-                              style: TextStyle(
-                                fontFamily: 'montserrat',
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const JadwalOlahragaWarga()),
-                          );
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/jadwal_olahraga.png',
-                              width: 35,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              "Jadwal Olahraga",
-                              style: TextStyle(
-                                fontFamily: 'montserrat',
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             ),
