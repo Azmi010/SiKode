@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sikode/services/auth_service.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
@@ -40,6 +42,7 @@ class _ProfilState extends State<Profil> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -150,7 +153,8 @@ class _ProfilState extends State<Profil> {
               CustomButton(
                 text: "Logout",
                 backgroundColor: const Color.fromRGBO(220, 0, 0, 1),
-                onPressed: () {
+                onPressed: () async {
+                  await authService.signOut();
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

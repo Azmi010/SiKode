@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/textformfield.dart';
+import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
 
 class Daftar extends StatefulWidget {
@@ -38,6 +40,8 @@ class _DaftarState extends State<Daftar> {
 
   @override
   Widget build(BuildContext context) {
+    final registerViewModel = Provider.of<RegisterViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -132,18 +136,38 @@ class _DaftarState extends State<Daftar> {
                 const SizedBox(
                   height: 30,
                 ),
-                CustomButton(
-                  text: "Daftar",
-                  backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    }
-                  },
-                ),
+                if (registerViewModel.isLoading)
+                  const CircularProgressIndicator()
+                else
+                  CustomButton(
+                    text: "Daftar",
+                    backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        bool success = await registerViewModel.register(
+                          emailController.text,
+                          kataSandiController.text,
+                          namaLengkapController.text,
+                          'warga',
+                        );
+                        if (success) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginPage(),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(registerViewModel.errorMessage ??
+                                  'Pendaftaran gagal'),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
                 const SizedBox(
                   height: 20,
                 ),
