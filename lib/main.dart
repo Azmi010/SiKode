@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/firebase_options.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
+import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
 
 void main() async {
@@ -13,6 +14,7 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
+      ChangeNotifierProvider(create: (_) => RegisterViewModel()),
     ], child: const SiKode()),
   );
 }

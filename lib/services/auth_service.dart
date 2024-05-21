@@ -14,6 +14,24 @@ class AuthService {
     }
   }
 
+  Future<User?> registerWithEmailAndPassword(String email, String password, String nama, String role) async {
+    try {
+      UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      User? user = result.user;
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).set({
+          'email': email,
+          'nama': nama,
+          'role': role
+        });
+      }
+
+      return user;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<String?> getUserRole(String uid) async {
     try {
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
