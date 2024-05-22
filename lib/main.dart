@@ -17,6 +17,9 @@ void main() async {
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ChangeNotifierProvider(create: (_) => RegisterViewModel()),
       Provider(create: (_) => AuthService()),
+      Provider<AuthService>(
+        create: (_) => AuthService(),
+      ),
     ], child: const SiKode()),
   );
 }
