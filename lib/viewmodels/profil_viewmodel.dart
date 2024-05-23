@@ -1,6 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:sikode/services/auth_service.dart';
-import 'dart:io';
 import 'package:sikode/views/auth/login_page.dart';
 
 class ProfileViewModel extends ChangeNotifier {
@@ -36,7 +36,7 @@ class ProfileViewModel extends ChangeNotifier {
   Future<void> updateUserProfile() async {
     if (selectedImage != null) {
       imageUrl = await authService.uploadImage(selectedImage!);
-      selectedImage = null; // Reset selected image after uploading
+      selectedImage = null;
     }
     await authService.updateUserProfile(
       namaLengkapController.text,
