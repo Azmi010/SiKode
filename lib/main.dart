@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/firebase_options.dart';
 import 'package:sikode/services/auth_service.dart';
+import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
@@ -16,6 +17,7 @@ void main() async {
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ChangeNotifierProvider(create: (_) => RegisterViewModel()),
+      ChangeNotifierProvider(create: (_) => InformasiViewModel()),
       Provider(create: (_) => AuthService()),
       Provider<AuthService>(
         create: (_) => AuthService(),
