@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 
-class DetailInformasiWarga extends StatefulWidget {
-  const DetailInformasiWarga({super.key});
+class DetailInformasiWarga extends StatelessWidget {
+  final String judul;
+  final String deskripsi;
+  final String imageUrl;
 
-  @override
-  State<DetailInformasiWarga> createState() => _DetailInformasiWargaState();
-}
+  const DetailInformasiWarga({
+    super.key,
+    required this.judul,
+    required this.deskripsi,
+    required this.imageUrl,
+  });
 
-class _DetailInformasiWargaState extends State<DetailInformasiWarga> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          "Vaksinasi Covid-19",
-          style: TextStyle(
-            fontFamily: "Montserrat",
+        title: Text(
+          judul,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -46,18 +49,17 @@ class _DetailInformasiWargaState extends State<DetailInformasiWarga> {
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(15),
                         ),
-                        child: Image.asset(
-                          'assets/images/informasi_vaksinasi.png',
+                        child: Image.network(
+                          imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
                         child: Text(
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                          style: TextStyle(
+                          deskripsi,
+                          style: const TextStyle(
                             fontSize: 14,
-                            fontFamily: 'Montserrat',
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                           ),

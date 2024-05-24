@@ -4,7 +4,16 @@ import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
 
 class EditInformasiAdmin extends StatefulWidget {
-  const EditInformasiAdmin({super.key});
+  final String judul;
+  final String deskripsi;
+  final String imageUrl;
+
+  const EditInformasiAdmin({
+    super.key,
+    required this.judul,
+    required this.deskripsi,
+    required this.imageUrl,
+  });
 
   @override
   State<EditInformasiAdmin> createState() => _EditInformasiAdminState();
@@ -17,10 +26,8 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
   @override
   void initState() {
     super.initState();
-    judulcontroller = TextEditingController(text: 'Vaksinasi Covid-19');
-    deskripsicontroller = TextEditingController(
-        text:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');
+    judulcontroller = TextEditingController(text: widget.judul);
+    deskripsicontroller = TextEditingController(text: widget.deskripsi);
   }
 
   @override
@@ -47,10 +54,7 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
           iconTheme: const IconThemeData(color: Colors.white),
           title: const Text(
             "Edit Vaksinasi Covid-19",
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
           ),
           backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
           centerTitle: true,
@@ -66,7 +70,6 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
                   child: const Text(
                     "Judul",
                     style: TextStyle(
-                      fontFamily: "Montserrat",
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                     ),
@@ -83,7 +86,6 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
                   child: const Text(
                     "Deskripsi",
                     style: TextStyle(
-                      fontFamily: "Montserrat",
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                     ),
@@ -103,8 +105,8 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
                       borderRadius: BorderRadius.circular(15),
                       child: Opacity(
                         opacity: 0.3,
-                        child: Image.asset(
-                          "assets/images/informasi_vaksinasi.png",
+                        child: Image.network(
+                          widget.imageUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -132,9 +134,7 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
                 CustomButton(
                   text: "Simpan",
                   backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
-                  onPressed: () {
-                    // Simpan action
-                  },
+                  onPressed: () {},
                 ),
                 const SizedBox(height: 20),
               ],
