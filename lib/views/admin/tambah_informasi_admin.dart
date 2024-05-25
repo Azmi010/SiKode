@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
-import 'package:sikode/views/admin/informasi_admin.dart';
+import 'package:sikode/viewmodels/informasi_viewmodel.dart';
+import 'package:sikode/views/admin/bottom_navbar_admin.dart';
 
 class TambahInformasiAdmin extends StatefulWidget {
   const TambahInformasiAdmin({super.key});
@@ -14,6 +19,7 @@ class TambahInformasiAdmin extends StatefulWidget {
 class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   late TextEditingController judulcontroller;
   late TextEditingController deskripsicontroller;
+  File? _imageFile;
 
   @override
   void initState() {
@@ -30,16 +36,25 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   }
 
   Future<void> _showPickerDialog(BuildContext context) async {
-    return showDialog(
+    final pickedFile = await showDialog<XFile?>(
       context: context,
       builder: (BuildContext context) {
         return const ImagePickerDialog();
       },
     );
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final informasiViewModel =
+        Provider.of<InformasiViewModel>(context, listen: false);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -47,7 +62,6 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
         title: const Text(
           "Tambah Informasi Warga",
           style: TextStyle(
-            fontFamily: "Montserrat",
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
@@ -65,7 +79,6 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
               child: const Text(
                 "Judul",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -84,7 +97,6 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
               child: const Text(
                 "Deskripsi",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -106,7 +118,6 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
               child: const Text(
                 "Upload Gambar",
                 style: TextStyle(
-                  fontFamily: "Montserrat",
                   fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
@@ -128,7 +139,6 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
                   const Text(
                     "Tidak ada file yang dipilih",
                     style: TextStyle(
-                      fontFamily: 'Montserrat',
                       color: Color.fromRGBO(1, 193, 139, 1),
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
@@ -156,13 +166,32 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
             CustomButton(
               text: "Tambah",
               backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const InformasiAdmin(),
-                  ),
-                ); // Aks
+              onPressed: () async {
+                if (_imageFile != null) {
+                  final docRef =
+                      FirebaseFirestore.instance.collection('informasi').doc();
+                  final docId = docRef.id;
+
+                  final imageUrl =
+                      await informasiViewModel.uploadImageToStorage(
+                    _imageFile!,
+                    'informasi_${DateTime.now().millisecondsSinceEpoch}.jpg',
+                  );
+
+                  await informasiViewModel.addInformasi(
+                    docId,
+                    judulcontroller.text,
+                    deskripsicontroller.text,
+                    imageUrl,
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NavbarAdmin(initialIndex: 1),
+                    ),
+                  );
+                }
               },
             ),
           ],

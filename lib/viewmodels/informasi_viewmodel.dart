@@ -48,4 +48,17 @@ class InformasiViewModel with ChangeNotifier {
       throw e;
     }
   }
+
+  Future<void> addInformasi(String docId, String judul, String deskripsi, String imageUrl) async {
+    try {
+      await FirebaseFirestore.instance.collection('informasi').doc(docId).set({
+        'judul': judul,
+        'deskripsi': deskripsi,
+        'imageUrl': imageUrl,
+      });
+      await fetchInformasi();
+    } catch (e) {
+      print('Error adding informasi: $e');
+    }
+  }
 }
