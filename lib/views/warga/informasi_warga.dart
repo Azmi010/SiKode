@@ -3,19 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/views/warga/detail_informasi_warga.dart';
 
-class InformasiWarga extends StatefulWidget {
+class InformasiWarga extends StatelessWidget {
   const InformasiWarga({super.key});
-
-  @override
-  State<InformasiWarga> createState() => _InformasiWargaState();
-}
-
-class _InformasiWargaState extends State<InformasiWarga> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<InformasiViewModel>(context, listen: false).fetchInformasi();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +27,6 @@ class _InformasiWargaState extends State<InformasiWarga> {
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
-            if (informasiViewModel.isLoading)
-              const Center(child: CircularProgressIndicator())
-            else
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
@@ -99,6 +85,7 @@ class _InformasiWargaState extends State<InformasiWarga> {
                                               judul: informasi.judul,
                                               deskripsi: informasi.deskripsi,
                                               imageUrl: informasi.imageUrl,
+                                              docId: informasi.id,
                                             ),
                                           ),
                                         );

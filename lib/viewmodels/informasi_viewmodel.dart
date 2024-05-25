@@ -1,21 +1,64 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:sikode/models/informasi.dart';
-import 'package:sikode/services/informasi_service.dart';
 
-class InformasiViewModel extends ChangeNotifier {
-  final InformasiService _service = InformasiService();
-  List<InformasiModel> _informasiList = [];
-  bool _isLoading = true;
+class InformasiViewModel with ChangeNotifier {
+  final List<InformasiModel> _informasiList = [];
 
   List<InformasiModel> get informasiList => _informasiList;
-  bool get isLoading => _isLoading;
 
   Future<void> fetchInformasi() async {
-    _isLoading = true;
-    notifyListeners();
+    try {
+      final snapshot = await FirebaseFirestore.instance.collection('informasi').get();
+      _informasiList.clear();
+      for (var doc in snapshot.docs) {
+        _informasiList.add(InformasiModel.fromFirestore(doc.data(), doc.id));
+      }
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching informasi: $e');
+    }
+  }
 
-    _informasiList = await _service.fetchInformasi();
-    _isLoading = false;
-    notifyListeners();
+  Future<void> updateInformasi(String docId, String judul, String deskripsi, String imageUrl) async {
+    try {
+      await FirebaseFirestore.instance.collection('informasi').doc(docId).update({
+        'judul': judul,
+        'deskripsi': deskripsi,
+        'imageUrl': imageUrl,
+      });
+      await fetchInformasi();
+    } catch (e) {
+      print('Error updating informasi: $e');
+    }
+  }
+
+  Future<String> uploadImageToStorage(File imageFile, String imageName) async {
+    try {
+      final Reference storageReference = FirebaseStorage.instance.ref('informasi_thumbnail').child(imageName);
+      final UploadTask uploadTask = storageReference.putFile(imageFile);
+      final TaskSnapshot taskSnapshot = await uploadTask;
+      final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print('Error uploading image: $e');
+      throw e;
+    }
+  }
+
+  Future<void> addInformasi(String docId, String judul, String deskripsi, String imageUrl) async {
+    try {
+      await FirebaseFirestore.instance.collection('informasi').doc(docId).set({
+        'judul': judul,
+        'deskripsi': deskripsi,
+        'imageUrl': imageUrl,
+      });
+      await fetchInformasi();
+    } catch (e) {
+      print('Error adding informasi: $e');
+    }
   }
 }

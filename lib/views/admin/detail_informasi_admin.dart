@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:sikode/views/admin/edit_informasi_admin.dart';
+import 'edit_informasi_admin.dart';
 
 class DetailInformasiAdmin extends StatelessWidget {
   final String judul;
   final String deskripsi;
   final String imageUrl;
+  final String docId;
 
   const DetailInformasiAdmin({
     super.key,
     required this.judul,
     required this.deskripsi,
     required this.imageUrl,
+    required this.docId,
   });
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -61,6 +64,7 @@ class DetailInformasiAdmin extends StatelessWidget {
                           deskripsi,
                           style: const TextStyle(
                             fontSize: 14,
+                            fontFamily: 'Montserrat',
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                           ),
@@ -84,6 +88,7 @@ class DetailInformasiAdmin extends StatelessWidget {
                         judul: judul,
                         deskripsi: deskripsi,
                         imageUrl: imageUrl,
+                        docId: docId,
                       ),
                     ),
                   );
@@ -94,11 +99,11 @@ class DetailInformasiAdmin extends StatelessWidget {
                   height: 50,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color.fromRGBO(1, 188, 177, 1), // Warna tombol
+                    color: Color.fromRGBO(1, 188, 177, 1),
                   ),
                   child: const Icon(
                     Icons.edit_square,
-                    color: Colors.white, // Warna ikon di dalam tombol
+                    color: Colors.white,
                   ),
                 ),
               ),

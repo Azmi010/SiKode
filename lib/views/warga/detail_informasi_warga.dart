@@ -4,12 +4,14 @@ class DetailInformasiWarga extends StatelessWidget {
   final String judul;
   final String deskripsi;
   final String imageUrl;
+  final String docId;
 
   const DetailInformasiWarga({
     super.key,
     required this.judul,
     required this.deskripsi,
     required this.imageUrl,
+    required this.docId,
   });
 
   @override
