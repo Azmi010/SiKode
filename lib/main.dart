@@ -17,7 +17,7 @@ void main() async {
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ChangeNotifierProvider(create: (_) => RegisterViewModel()),
-      ChangeNotifierProvider(create: (_) => InformasiViewModel()),
+      ChangeNotifierProvider(create: (context) => InformasiViewModel()..fetchInformasi()),
       Provider(create: (_) => AuthService()),
       Provider<AuthService>(
         create: (_) => AuthService(),

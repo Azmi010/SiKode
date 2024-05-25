@@ -19,4 +19,12 @@ class InformasiModel {
       imageUrl: data['imageUrl'],
     );
   }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'judul': judul,
+      'deskripsi': deskripsi,
+      'imageUrl': imageUrl,
+    };
+  }
 }
