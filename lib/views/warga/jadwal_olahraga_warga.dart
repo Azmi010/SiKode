@@ -1,15 +1,15 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart";
 
-class JadwalOlahragaWarga extends StatefulWidget {
+class JadwalOlahragaWarga extends StatelessWidget {
   const JadwalOlahragaWarga({super.key});
 
   @override
-  State<JadwalOlahragaWarga> createState() => _JadwalOlahragaWargaState();
-}
-
-class _JadwalOlahragaWargaState extends State<JadwalOlahragaWarga> {
-  @override
   Widget build(BuildContext context) {
+    final jadwalOlahragaViewModel =
+        Provider.of<JadwalOlahragaViewModel>(context);
+        
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -26,17 +26,20 @@ class _JadwalOlahragaWargaState extends State<JadwalOlahragaWarga> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: jadwalOlahragaViewModel.jadwalOlahragaList.length,
                 itemBuilder: (context, index) {
+                  final jadwalOlahraga =
+                      jadwalOlahragaViewModel.jadwalOlahragaList[index];
+                  final formattedWaktu =
+                      '${jadwalOlahraga.getDayName()}, ${jadwalOlahraga.waktu.day} ${jadwalOlahraga.getMonthName()} ${jadwalOlahraga.waktu.year}';
                   return Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "Lari Bersama",
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
+                      Text(
+                        jadwalOlahraga.nama,
+                        style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
@@ -58,29 +61,29 @@ class _JadwalOlahragaWargaState extends State<JadwalOlahragaWarga> {
                                   borderRadius: const BorderRadius.vertical(
                                     top: Radius.circular(15),
                                   ),
-                                  child: Image.asset(
-                                    "assets/images/Lari Bersama.jpeg",
+                                  child: Image.network(
+                                    jadwalOlahraga.imageUrl,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                const Column(
+                                Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 20, vertical: 10),
                                       child: Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.calendar_today_outlined,
                                             color: Colors.white,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 14,
                                           ),
                                           Text(
-                                            "Minggu, 5 Mei 2024",
+                                            formattedWaktu,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Montserrat',
                                               color: Colors.white,
@@ -91,23 +94,22 @@ class _JadwalOlahragaWargaState extends State<JadwalOlahragaWarga> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.location_on_outlined,
                                             color: Colors.white,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 14,
                                           ),
                                           Text(
-                                            "Lapangan Sidomulyo",
+                                            jadwalOlahraga.lokasi,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 14,
-                                              fontFamily: 'Montserrat',
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                             ),
