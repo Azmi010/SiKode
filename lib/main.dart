@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sikode/firebase_options.dart';
 import 'package:sikode/services/auth_service.dart';
 import 'package:sikode/viewmodels/informasi_viewmodel.dart';
+import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
@@ -18,6 +19,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => LoginViewModel()),
       ChangeNotifierProvider(create: (_) => RegisterViewModel()),
       ChangeNotifierProvider(create: (context) => InformasiViewModel()..fetchInformasi()),
+      ChangeNotifierProvider(create: (context) => JadwalOlahragaViewModel()..fetchJadwalOlahraga()),
       Provider(create: (_) => AuthService()),
       Provider<AuthService>(
         create: (_) => AuthService(),
