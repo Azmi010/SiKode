@@ -1,17 +1,17 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart";
 import "package:sikode/views/admin/edit_jadwal_olahraga.dart";
 import "package:sikode/views/admin/tambah_jadwal_olahraga.dart";
 
-class JadwalOlahragaAdmin extends StatefulWidget {
+class JadwalOlahragaAdmin extends StatelessWidget {
   const JadwalOlahragaAdmin({super.key});
 
   @override
-  State<JadwalOlahragaAdmin> createState() => _JadwalOlahragaAdminState();
-}
-
-class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
-  @override
   Widget build(BuildContext context) {
+    final jadwalOlahragaViewModel =
+        Provider.of<JadwalOlahragaViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -28,19 +28,21 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: jadwalOlahragaViewModel.jadwalOlahragaList.length,
                 itemBuilder: (context, index) {
+                  final jadwalOlahraga =
+                      jadwalOlahragaViewModel.jadwalOlahragaList[index];
+                  final formattedWaktu =
+                      '${jadwalOlahraga.getDayName()}, ${jadwalOlahraga.waktu.day} ${jadwalOlahraga.getMonthName()} ${jadwalOlahraga.waktu.year}';
                   return Column(
                     children: [
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "Lari Bersama",
-                        style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                      Text(
+                        jadwalOlahraga.nama,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -60,8 +62,8 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
                                   borderRadius: const BorderRadius.vertical(
                                     top: Radius.circular(15),
                                   ),
-                                  child: Image.asset(
-                                    "assets/images/Lari Bersama.jpeg",
+                                  child: Image.network(
+                                    jadwalOlahraga.imageUrl,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -74,22 +76,21 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const SizedBox(
+                                          SizedBox(
                                             child: Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.calendar_today_outlined,
                                                   color: Colors.white,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 14,
                                                 ),
                                                 Text(
-                                                  "Minggu, 5 Mei 2024",
+                                                  formattedWaktu,
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 14,
-                                                    fontFamily: 'Montserrat',
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -115,24 +116,23 @@ class _JadwalOlahragaAdminState extends State<JadwalOlahragaAdmin> {
                                         ],
                                       ),
                                     ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
                                       child: Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.location_on_outlined,
                                             color: Colors.white,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 14,
                                           ),
                                           Text(
-                                            "Lapangan Sidomulyo",
+                                            jadwalOlahraga.lokasi,
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 14,
-                                              fontFamily: 'Montserrat',
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                             ),
