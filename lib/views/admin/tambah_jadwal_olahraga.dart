@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/textformfield.dart';
+import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 
 class TambahJadwalOlahraga extends StatefulWidget {
   const TambahJadwalOlahraga({super.key});
@@ -14,6 +19,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
   late TextEditingController namakegiatanController;
   late TextEditingController tanggalkegiatanController;
   late TextEditingController lokasikegiatanController;
+  File? _imageFile;
 
   @override
   void initState() {
@@ -47,16 +53,24 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
   }
 
   Future<void> _showPickerDialog(BuildContext context) async {
-    return showDialog(
+    final pickedFile = await showDialog<XFile?>(
       context: context,
       builder: (BuildContext context) {
         return const ImagePickerDialog();
       },
     );
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final jadwalOlahragaViewModel =
+        Provider.of<JadwalOlahragaViewModel>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -112,8 +126,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
               hintText: "Hari, Tgl/Bln/Thn",
               suffixIcon: IconButton(
                 onPressed: () {
-                  _selectDate(
-                      context);
+                  _selectDate(context);
                 },
                 icon: const Icon(
                   Icons.calendar_today_outlined,
@@ -196,7 +209,27 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
             CustomButton(
               text: "Tambah",
               backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
-              onPressed: () {},
+              onPressed: () async {
+                if (_imageFile != null) {
+                  final docRef =
+                      FirebaseFirestore.instance.collection('informasi').doc();
+                  final docId = docRef.id;
+
+                  final imageUrl =
+                      await jadwalOlahragaViewModel.uploadImageToStorage(
+                    _imageFile!,
+                    'informasi_${DateTime.now().millisecondsSinceEpoch}.jpg',
+                  );
+
+                  await jadwalOlahragaViewModel.addJadwalOlahraga(
+                    docId,
+                    namakegiatanController.text,
+                    DateTime.parse(tanggalkegiatanController.text),
+                    lokasikegiatanController.text,
+                    imageUrl,
+                  );
+                }
+              },
             ),
           ],
         ),
