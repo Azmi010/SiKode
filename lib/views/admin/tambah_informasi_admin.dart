@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
@@ -36,7 +35,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   }
 
   Future<void> _showPickerDialog(BuildContext context) async {
-    final pickedFile = await showDialog<XFile?>(
+    final pickedFile = await showDialog<File?>(
       context: context,
       builder: (BuildContext context) {
         return const ImagePickerDialog();

@@ -104,7 +104,19 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const EditJadwalOlahraga(),
+                                                      EditJadwalOlahraga(
+                                                          judul: jadwalOlahraga
+                                                              .nama,
+                                                          waktu: jadwalOlahraga
+                                                              .waktu
+                                                              .toString(),
+                                                          lokasi: jadwalOlahraga
+                                                              .lokasi,
+                                                          imageUrl:
+                                                              jadwalOlahraga
+                                                                  .imageUrl,
+                                                          docId: jadwalOlahraga
+                                                              .id),
                                                 ),
                                               );
                                             },

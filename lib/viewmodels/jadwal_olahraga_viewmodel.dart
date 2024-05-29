@@ -49,4 +49,18 @@ class JadwalOlahragaViewModel extends ChangeNotifier {
       print('Error adding informasi: $e');
     }
   }
+
+   Future<void> updateJadwalOlahraga(String docId, String nama, DateTime waktu, String lokasi, String imageUrl) async {
+    try {
+      await FirebaseFirestore.instance.collection('jadwal_olahraga').doc(docId).update({
+        'nama': nama,
+        'waktu': waktu,
+        'lokasi': lokasi,
+        'imageUrl': imageUrl,
+      });
+      await fetchJadwalOlahraga();
+    } catch (e) {
+      print('Error updating informasi: $e');
+    }
+  }
 }
