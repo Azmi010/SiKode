@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sikode/models/events.dart';
 import 'package:sikode/services/auth_service.dart';
+import 'package:sikode/viewmodels/homepage_viewmodel.dart';
 import 'package:sikode/utils/card_home.dart';
 import 'package:sikode/views/admin/jadwal_olahraga_admin.dart';
 import 'package:sikode/views/admin/jadwal_ronda_admin.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:sikode/viewmodels/homepage_viewmodel.dart';
 
 class HomePageAdmin extends StatelessWidget {
   const HomePageAdmin({super.key});
@@ -13,8 +14,7 @@ class HomePageAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          HomePageViewModel(Provider.of<AuthService>(context, listen: false)),
+      create: (_) => HomePageViewModel(Provider.of<AuthService>(context, listen: false)),
       child: Consumer<HomePageViewModel>(
         builder: (context, homeViewModel, child) {
           return Scaffold(
@@ -27,8 +27,7 @@ class HomePageAdmin extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 50),
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                               color: const Color.fromRGBO(1, 188, 177, 1),
                               width: MediaQuery.of(context).size.width,
                               height: 300,
@@ -36,25 +35,22 @@ class HomePageAdmin extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Image(
-                                    image:
-                                        AssetImage('assets/images/profil.png'),
+                                    image: AssetImage('assets/images/profil.png'),
                                     width: 67,
                                   ),
                                   const SizedBox(width: 20),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
+                                        const SizedBox(height: 30),
                                         Text(
                                           'Hai, ${homeViewModel.userName}',
                                           style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              fontSize: 20),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
                                         ),
                                         const SizedBox(height: 10),
                                         const Text(
@@ -70,9 +66,7 @@ class HomePageAdmin extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+                            const SizedBox(height: 20),
                             Container(
                               alignment: Alignment.topLeft,
                               padding: const EdgeInsets.only(left: 32, top: 70),
@@ -89,14 +83,12 @@ class HomePageAdmin extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomCard(
-                                  imagePath:
-                                      'assets/images/informasi_vaksinasi.png',
+                                  imagePath: 'assets/images/informasi_vaksinasi.png',
                                   title: 'Vaksinasi',
                                   padding: EdgeInsets.only(left: 30),
                                 ),
                                 CustomCard(
-                                  imagePath:
-                                      'assets/images/informasi_bansos.png',
+                                  imagePath: 'assets/images/informasi_bansos.png',
                                   title: 'Bansos',
                                   padding: EdgeInsets.only(right: 30),
                                 ),
@@ -104,12 +96,21 @@ class HomePageAdmin extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: TableCalendar(
-                                focusedDay: DateTime.now(),
-                                firstDay: DateTime.now(),
-                                lastDay: DateTime.now(),
+                                firstDay: DateTime.utc(1990),
+                                lastDay: DateTime.utc(2030),
+                                focusedDay: homeViewModel.selectedDay ?? DateTime.now(),
+                                selectedDayPredicate: (day) {
+                                  return isSameDay(homeViewModel.selectedDay, day);
+                                },
+                                onDaySelected: (selectedDay, focusedDay) {
+                                  homeViewModel.selectDay(selectedDay);
+                                  _onDaySelected(context, selectedDay, homeViewModel);
+                                },
+                                eventLoader: (day) {
+                                  return homeViewModel.getEventsForDay(day);
+                                },
                               ),
                             ),
                             const SizedBox(height: 30),
@@ -140,9 +141,7 @@ class HomePageAdmin extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const JadwalRondaAdmin()),
+                                      MaterialPageRoute(builder: (context) => const JadwalRondaAdmin()),
                                     );
                                   },
                                   child: Column(
@@ -152,12 +151,8 @@ class HomePageAdmin extends StatelessWidget {
                                         'assets/images/jadwal_ronda.png',
                                         width: 35,
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      const Text(
-                                        "Jadwal Ronda",
-                                      )
+                                      const SizedBox(height: 10),
+                                      const Text("Jadwal Ronda"),
                                     ],
                                   ),
                                 ),
@@ -165,9 +160,7 @@ class HomePageAdmin extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const JadwalOlahragaAdmin()),
+                                      MaterialPageRoute(builder: (context) => const JadwalOlahragaAdmin()),
                                     );
                                   },
                                   child: Column(
@@ -177,15 +170,11 @@ class HomePageAdmin extends StatelessWidget {
                                         'assets/images/jadwal_olahraga.png',
                                         width: 35,
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      const Text(
-                                        "Jadwal Olahraga",
-                                      )
+                                      const SizedBox(height: 10),
+                                      const Text("Jadwal Olahraga"),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -198,4 +187,71 @@ class HomePageAdmin extends StatelessWidget {
       ),
     );
   }
+
+  void _onDaySelected(BuildContext context, DateTime selectedDay, HomePageViewModel homeViewModel) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Events'),
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 200,
+          child: ListView(
+            children: [
+              for (final event in homeViewModel.getEventsForDay(selectedDay))
+                ListTile(
+                  title: Text(event.title),
+                ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Add Event'),
+            onPressed: () {
+              _showAddEventDialog(context, selectedDay, homeViewModel);
+            },
+          ),
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddEventDialog(BuildContext context, DateTime selectedDay, HomePageViewModel homeViewModel) {
+    TextEditingController eventController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add Event'),
+        content: TextField(
+          controller: eventController,
+          decoration: const InputDecoration(hintText: 'Event Title'),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Add'),
+            onPressed: () async {
+              if (eventController.text.isNotEmpty) {
+                final newEvent = Event(
+                  title: eventController.text,
+                  date: selectedDay, id: '',
+                );
+                homeViewModel.addEvent(selectedDay, newEvent);
+                Navigator.pop(context);
+              }
+            },
+          ),
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
