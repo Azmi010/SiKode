@@ -69,7 +69,6 @@ class HomePageViewModel extends ChangeNotifier {
     final date = DateTime(event.date.year, event.date.month, event.date.day);
     events[date]?.remove(event);
     notifyListeners();
-    // Hapus event dari Firebase
     await _firestore.collection('events').doc(event.id).delete();
   }
 }
