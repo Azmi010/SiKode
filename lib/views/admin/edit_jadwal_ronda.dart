@@ -184,6 +184,11 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
         .doc(widget.title)
         .update({'orang': orangList});
 
-    showCustomPopup(context, "Berhasil", "Berhasil Menambahkan Data");
+    showCustomDialog(context,
+        icon: Icons.check_circle_outline_sharp,
+        title: "Berhasil",
+        message: "Berhasil Menambahkan Data", onPressed: () {
+      Navigator.of(context).pop();
+    });
   }
 }

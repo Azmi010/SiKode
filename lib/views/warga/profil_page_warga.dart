@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sikode/services/auth_service.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/profil_viewmodel.dart';
 
@@ -150,10 +151,12 @@ class ProfilWarga extends StatelessWidget {
                                 const Color.fromRGBO(1, 193, 139, 1),
                             onPressed: () async {
                               await profileViewModel.updateUserProfile();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Profil diperbarui'),
-                                ),
+                              showCustomDialog(
+                                context,
+                                icon: Icons.check_circle_outline_sharp,
+                                title: "Berhasil",
+                                message: "Berhasil Mengubah Profil",
+                                onPressed: () {},
                               );
                             },
                           ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sikode/services/auth_service.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/homepage_viewmodel.dart';
 import 'package:sikode/viewmodels/profil_viewmodel.dart';
@@ -156,9 +157,12 @@ class Profil extends StatelessWidget {
                                       listen: false);
                               homePageViewModel.updateUserName(
                                   profileViewModel.namaLengkapController.text);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Profil diperbarui')),
+                              showCustomDialog(
+                                context,
+                                icon: Icons.check_circle_outline_sharp,
+                                title: "Berhasil",
+                                message: "Berhasil Mengubah Profil",
+                                onPressed: () {},
                               );
                             },
                           ),

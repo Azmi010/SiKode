@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/views/admin/bottom_navbar_admin.dart';
@@ -61,7 +62,8 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    final informasiViewModel = Provider.of<InformasiViewModel>(context, listen: false);
+    final informasiViewModel =
+        Provider.of<InformasiViewModel>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -172,12 +174,21 @@ class _EditInformasiAdminState extends State<EditInformasiAdmin> {
                     deskripsicontroller.text,
                     imageUrl,
                   );
-
-                  Navigator.push(
+                  showCustomDialog(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const NavbarAdmin(initialIndex: 1),
-                    ),
+                    icon: Icons.check_circle_outline_sharp,
+                    title: "Berhasil",
+                    message: "Berhasil Mengubah Informasi",
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavbarAdmin(
+                            initialIndex: 1,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

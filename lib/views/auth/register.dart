@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
@@ -151,18 +152,28 @@ class _DaftarState extends State<Daftar> {
                           'warga',
                         );
                         if (success) {
-                          Navigator.pushReplacement(
+                          showCustomDialog(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
+                            icon: Icons.check_circle_outline_sharp,
+                            title: "Berhasil",
+                            message: "Login Berhasil",
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ),
+                              );
+                            },
                           );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(registerViewModel.errorMessage ??
-                                  'Pendaftaran gagal'),
-                            ),
+                          showCustomDialog(
+                            context,
+                            icon: Icons.close_rounded,
+                            title: "Gagal",
+                            message: "Gagal Melakukan Pendaftaran",
+                            iconColor: Colors.red,
+                            onPressed: () {},
                           );
                         }
                       }

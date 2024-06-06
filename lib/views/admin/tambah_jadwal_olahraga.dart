@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 import 'package:sikode/views/admin/bottom_navbar_admin.dart';
@@ -254,14 +255,22 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
                       lokasikegiatanController.text,
                       imageUrl,
                     );
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const NavbarAdmin(initialIndex: 0),
-                      ),
-                    );
+                    showCustomDialog(
+                    context,
+                    icon: Icons.check_circle_outline_sharp,
+                    title: "Berhasil",
+                    message: "Berhasil Menambah Jadwal",
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavbarAdmin(
+                            initialIndex: 0,
+                          ),
+                        ),
+                      );
+                    },
+                  );
                   } catch (e) {
                     print('Error menambah jadwal: $e');
                   }
