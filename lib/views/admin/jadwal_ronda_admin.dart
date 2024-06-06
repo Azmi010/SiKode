@@ -78,7 +78,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const Text("Loading...");
                     }
                     if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
@@ -119,7 +119,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                 stream: _viewModel.rwStream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const Text("Loading...");
                   }
                   if (!snapshot.hasData) {
                     return const Text('Data tidak tersedia');
@@ -136,11 +136,10 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                       final Map<String, dynamic> hariData =
                           docs[index].data() as Map<String, dynamic>;
                       final String hari =
-                          docs[index].id; // Mengambil nama hari dari ID dokumen
+                          docs[index].id;
                       final int dayIndex = _daysOfWeek
-                          .indexOf(hari); // Mendapatkan indeks dari nama hari
+                          .indexOf(hari);
                       if (dayIndex != -1) {
-                        // Pastikan hari ditemukan dalam daftar _daysOfWeek
                         return Card(
                           elevation: 2,
                           margin: const EdgeInsets.symmetric(vertical: 10),
@@ -153,7 +152,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    hari, // Menggunakan nama hari dari dokumen sebagai judul
+                                    hari,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -169,6 +168,7 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                                       MaterialPageRoute(
                                         builder: (context) => EditJadwalRonda(
                                           title: hari,
+                                          selectedRW: _selectedRW,
                                         ),
                                       ),
                                     );
@@ -180,7 +180,6 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                           ),
                         );
                       } else {
-                        // Jika hari tidak ditemukan, tampilkan pesan kesalahan
                         return const Text('Hari tidak ditemukan');
                       }
                     },
