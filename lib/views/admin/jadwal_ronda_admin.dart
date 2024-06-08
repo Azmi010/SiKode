@@ -135,10 +135,8 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
                     itemBuilder: (context, index) {
                       final Map<String, dynamic> hariData =
                           docs[index].data() as Map<String, dynamic>;
-                      final String hari =
-                          docs[index].id;
-                      final int dayIndex = _daysOfWeek
-                          .indexOf(hari);
+                      final String hari = docs[index].id;
+                      final int dayIndex = _daysOfWeek.indexOf(hari);
                       if (dayIndex != -1) {
                         return Card(
                           elevation: 2,
@@ -194,19 +192,26 @@ class _JadwalRondaAdminState extends State<JadwalRondaAdmin> {
   }
 
   Widget _buildSubtitle(Map<String, dynamic> data) {
-    final List<Widget> rows = [];
+    final List<Widget> items = [];
     final List<dynamic>? orangList = data['orang'] as List<dynamic>?;
 
     if (orangList != null && orangList.isNotEmpty) {
       for (final orang in orangList) {
-        rows.add(Text('- $orang'));
+        items.add(
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: Text('- $orang'),
+          ),
+        );
       }
     } else {
-      rows.add(const Text('Tidak ada data orang yang bertugas'));
+      items.add(const Text('Tidak ada data orang yang bertugas'));
     }
 
-    return Column(
-      children: rows,
+    return Wrap(
+      spacing: 8.0,
+      runSpacing: 4.0,
+      children: items,
     );
   }
 }
