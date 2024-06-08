@@ -112,9 +112,26 @@ class _HomePageWargaState extends State<HomePageWarga> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               child: TableCalendar(
-                                focusedDay: DateTime.now(),
-                                firstDay: DateTime.now(),
-                                lastDay: DateTime.now(),
+                                headerStyle: const HeaderStyle(
+                                  formatButtonVisible: false,
+                                  titleCentered: true,
+                                ),
+                                firstDay: DateTime.utc(1990),
+                                lastDay: DateTime.utc(2030),
+                                focusedDay:
+                                    homeViewModel.selectedDay ?? DateTime.now(),
+                                selectedDayPredicate: (day) {
+                                  return isSameDay(
+                                      homeViewModel.selectedDay, day);
+                                },
+                                onDaySelected: (selectedDay, focusedDay) {
+                                  homeViewModel.selectDay(selectedDay);
+                                  _onDaySelected(
+                                      context, selectedDay, homeViewModel);
+                                },
+                                eventLoader: (day) {
+                                  return homeViewModel.getEventsForDay(day);
+                                },
                               ),
                             ),
                             const SizedBox(height: 30),
@@ -146,8 +163,9 @@ class _HomePageWargaState extends State<HomePageWarga> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const JadwalRondaWarga()),
+                                        builder: (context) =>
+                                            const JadwalRondaWarga(),
+                                      ),
                                     );
                                   },
                                   child: Column(
@@ -171,8 +189,9 @@ class _HomePageWargaState extends State<HomePageWarga> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const JadwalOlahragaWarga()),
+                                        builder: (context) =>
+                                            const JadwalOlahragaWarga(),
+                                      ),
                                     );
                                   },
                                   child: Column(
@@ -200,6 +219,34 @@ class _HomePageWargaState extends State<HomePageWarga> {
                   ),
           );
         },
+      ),
+    );
+  }
+
+  void _onDaySelected(BuildContext context, DateTime selectedDay,
+      HomePageViewModel homeViewModel) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Events'),
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 200,
+          child: ListView(
+            children: [
+              for (final event in homeViewModel.getEventsForDay(selectedDay))
+                ListTile(
+                  title: Text(event.title),
+                ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
       ),
     );
   }
