@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sikode/viewmodels/jadwal_ronda_viewmodel.dart';
-import 'package:sikode/views/admin/bottom_navbar_admin.dart';
+import 'package:sikode/views/warga/bottom_navbar_warga.dart';
 
 class JadwalRondaWarga extends StatefulWidget {
   const JadwalRondaWarga({super.key});
@@ -39,7 +39,7 @@ class _JadwalRondaWargaState extends State<JadwalRondaWarga> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const NavbarAdmin(initialIndex: 0),
+                builder: (context) => const NavbarWarga(initialIndex: 0),
               ),
             );
           },

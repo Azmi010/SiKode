@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:sikode/models/events.dart';
 import 'package:sikode/services/auth_service.dart';
 import 'package:sikode/viewmodels/homepage_viewmodel.dart';
+import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/utils/card_home.dart';
+import 'package:sikode/views/admin/detail_informasi_admin.dart';
 import 'package:sikode/views/admin/jadwal_olahraga_admin.dart';
 import 'package:sikode/views/admin/jadwal_ronda_admin.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -13,10 +15,18 @@ class HomePageAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HomePageViewModel(Provider.of<AuthService>(context, listen: false)),
-      child: Consumer<HomePageViewModel>(
-        builder: (context, homeViewModel, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => HomePageViewModel(
+              Provider.of<AuthService>(context, listen: false)),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => InformasiViewModel()..fetchInformasi(),
+        ),
+      ],
+      child: Consumer2<HomePageViewModel, InformasiViewModel>(
+        builder: (context, homeViewModel, informasiViewModel, child) {
           return Scaffold(
             body: homeViewModel.isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -27,7 +37,8 @@ class HomePageAdmin extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 50),
                               color: const Color.fromRGBO(1, 188, 177, 1),
                               width: MediaQuery.of(context).size.width,
                               height: 300,
@@ -35,13 +46,15 @@ class HomePageAdmin extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Image(
-                                    image: AssetImage('assets/images/profil.png'),
+                                    image:
+                                        AssetImage('assets/images/profil.png'),
                                     width: 67,
                                   ),
                                   const SizedBox(width: 20),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const SizedBox(height: 30),
                                         Text(
@@ -79,34 +92,63 @@ class HomePageAdmin extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomCard(
-                                  imagePath: 'assets/images/informasi_vaksinasi.png',
-                                  title: 'Vaksinasi',
-                                  padding: EdgeInsets.only(left: 30),
-                                ),
-                                CustomCard(
-                                  imagePath: 'assets/images/informasi_bansos.png',
-                                  title: 'Bansos',
-                                  padding: EdgeInsets.only(right: 30),
-                                ),
-                              ],
+                            Container(
+                              height: 180,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    informasiViewModel.informasiList.length,
+                                itemBuilder: (context, index) {
+                                  final informasi =
+                                      informasiViewModel.informasiList[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              DetailInformasiAdmin(
+                                                  judul: informasi.judul,
+                                                  deskripsi:
+                                                      informasi.deskripsi,
+                                                  imageUrl: informasi.imageUrl,
+                                                  docId: informasi.id),
+                                        ),
+                                      );
+                                    },
+                                    child: CustomCard(
+                                      imagePath: informasi.imageUrl,
+                                      title: informasi.judul,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             const SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: TableCalendar(
+                                headerStyle: const HeaderStyle(
+                                  formatButtonVisible: false,
+                                  titleCentered: true,
+                                ),
                                 firstDay: DateTime.utc(1990),
                                 lastDay: DateTime.utc(2030),
-                                focusedDay: homeViewModel.selectedDay ?? DateTime.now(),
+                                focusedDay:
+                                    homeViewModel.selectedDay ?? DateTime.now(),
                                 selectedDayPredicate: (day) {
-                                  return isSameDay(homeViewModel.selectedDay, day);
+                                  return isSameDay(
+                                      homeViewModel.selectedDay, day);
                                 },
                                 onDaySelected: (selectedDay, focusedDay) {
                                   homeViewModel.selectDay(selectedDay);
-                                  _onDaySelected(context, selectedDay, homeViewModel);
+                                  _onDaySelected(
+                                      context, selectedDay, homeViewModel);
                                 },
                                 eventLoader: (day) {
                                   return homeViewModel.getEventsForDay(day);
@@ -141,7 +183,9 @@ class HomePageAdmin extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const JadwalRondaAdmin()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const JadwalRondaAdmin()),
                                     );
                                   },
                                   child: Column(
@@ -160,7 +204,9 @@ class HomePageAdmin extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const JadwalOlahragaAdmin()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const JadwalOlahragaAdmin()),
                                     );
                                   },
                                   child: Column(
@@ -188,40 +234,94 @@ class HomePageAdmin extends StatelessWidget {
     );
   }
 
-  void _onDaySelected(BuildContext context, DateTime selectedDay, HomePageViewModel homeViewModel) {
-    showDialog(
+  void _onDaySelected(BuildContext context, DateTime selectedDay,
+      HomePageViewModel homeViewModel) {
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Events'),
-        content: SizedBox(
-          width: double.maxFinite,
-          height: 200,
-          child: ListView(
-            children: [
-              for (final event in homeViewModel.getEventsForDay(selectedDay))
-                ListTile(
-                  title: Text(event.title),
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_today, size: 20),
+                    const SizedBox(width: 10),
+                    Text(
+                      '${selectedDay.day} ${_monthName(selectedDay.month)}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-            ],
+                const SizedBox(height: 10),
+                ...homeViewModel.getEventsForDay(selectedDay).map((event) {
+                  return ListTile(
+                    leading: const Icon(
+                      Icons.work,
+                      color: Color.fromRGBO(1, 188, 177, 1),
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(event.title),
+                  );
+                }),
+                const SizedBox(height: 10),
+                Center(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add Event'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _showAddEventDialog(context, selectedDay, homeViewModel);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            child: const Text('Add Event'),
-            onPressed: () {
-              _showAddEventDialog(context, selectedDay, homeViewModel);
-            },
-          ),
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  void _showAddEventDialog(BuildContext context, DateTime selectedDay, HomePageViewModel homeViewModel) {
+  String _monthName(int month) {
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return '';
+    }
+  }
+
+  void _showAddEventDialog(BuildContext context, DateTime selectedDay,
+      HomePageViewModel homeViewModel) {
     TextEditingController eventController = TextEditingController();
     showDialog(
       context: context,
@@ -238,7 +338,8 @@ class HomePageAdmin extends StatelessWidget {
               if (eventController.text.isNotEmpty) {
                 final newEvent = Event(
                   title: eventController.text,
-                  date: selectedDay, id: '',
+                  date: selectedDay,
+                  id: '',
                 );
                 homeViewModel.addEvent(selectedDay, newEvent);
                 Navigator.pop(context);
@@ -253,5 +354,4 @@ class HomePageAdmin extends StatelessWidget {
       ),
     );
   }
-
 }

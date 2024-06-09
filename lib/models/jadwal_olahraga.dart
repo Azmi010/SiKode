@@ -17,7 +17,6 @@ class JadwalOlahragaModel {
 
   factory JadwalOlahragaModel.fromFirestore(Map<String, dynamic> data, String id) {
     final waktuTimestamp = (data['waktu'] as Timestamp).toDate();
-    // final formattedWaktu = '${_getDayName(waktuTimestamp.weekday)}, ${waktuTimestamp.day} ${_getMonthName(waktuTimestamp.month)}';
     
     return JadwalOlahragaModel(
       id: id,
