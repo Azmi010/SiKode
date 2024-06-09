@@ -20,6 +20,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   late TextEditingController judulcontroller;
   late TextEditingController deskripsicontroller;
   File? _imageFile;
+  String _fileName = "Tidak ada file yang dipilih";
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
+        _fileName = pickedFile.path.split('/').last;
       });
     }
   }
@@ -133,32 +135,41 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
                   ),
                   borderRadius: BorderRadius.circular(8)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 2),
-                  const Text(
-                    "Tidak ada file yang dipilih",
-                    style: TextStyle(
-                      color: Color.fromRGBO(1, 193, 139, 1),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(
+                      width: 2,
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await _showPickerDialog(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(228, 228, 228, 1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                    child: const Text(
-                      "pilih file",
-                      style: TextStyle(color: Colors.black),
+                    Expanded(
+                      child: Text(
+                        _fileName,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(1, 193, 139, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await _showPickerDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromRGBO(228, 228, 228, 1),
+                          fixedSize: Size(
+                              MediaQuery.of(context).size.width * 0.25,
+                              double.infinity),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                      child: const Text(
+                        "pilih",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
             ),
             const SizedBox(
               height: 50,

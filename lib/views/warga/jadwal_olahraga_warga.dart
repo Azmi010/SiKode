@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
-import "package:provider/provider.dart";
-import "package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart";
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 
 class JadwalOlahragaWarga extends StatelessWidget {
   const JadwalOlahragaWarga({super.key});
@@ -9,7 +9,7 @@ class JadwalOlahragaWarga extends StatelessWidget {
   Widget build(BuildContext context) {
     final jadwalOlahragaViewModel =
         Provider.of<JadwalOlahragaViewModel>(context);
-        
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -40,8 +40,7 @@ class JadwalOlahragaWarga extends StatelessWidget {
                       Text(
                         jadwalOlahraga.nama,
                         style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -61,9 +60,12 @@ class JadwalOlahragaWarga extends StatelessWidget {
                                   borderRadius: const BorderRadius.vertical(
                                     top: Radius.circular(15),
                                   ),
-                                  child: Image.network(
-                                    jadwalOlahraga.imageUrl,
-                                    fit: BoxFit.cover,
+                                  child: AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image.network(
+                                      jadwalOlahraga.imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 Column(
@@ -85,7 +87,6 @@ class JadwalOlahragaWarga extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontSize: 14,
-                                              fontFamily: 'Montserrat',
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
                                             ),

@@ -31,14 +31,12 @@ class DetailInformasiWarga extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Container(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              SizedBox(
                 width: 375,
-                height: 560,
                 child: Card(
                   color: const Color.fromRGBO(1, 188, 177, 1),
                   elevation: 4,
@@ -46,6 +44,7 @@ class DetailInformasiWarga extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ClipRRect(
                         borderRadius: const BorderRadius.vertical(
@@ -71,8 +70,9 @@ class DetailInformasiWarga extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

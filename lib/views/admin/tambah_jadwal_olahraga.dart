@@ -22,6 +22,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
   late TextEditingController tanggalkegiatanController;
   late TextEditingController lokasikegiatanController;
   File? _imageFile;
+  String _fileName = "Tidak ada file yang dipilih";
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
+        _fileName = pickedFile.path.split('/').last;
       });
     }
   }
@@ -181,12 +183,15 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
                     const SizedBox(
                       width: 2,
                     ),
-                    const Text(
-                      "Tidak ada file yang dipilih",
-                      style: TextStyle(
-                        color: Color.fromRGBO(1, 193, 139, 1),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                    Expanded(
+                      child: Text(
+                        _fileName,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(1, 193, 139, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     ElevatedButton(
@@ -197,12 +202,12 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
                           backgroundColor:
                               const Color.fromRGBO(228, 228, 228, 1),
                           fixedSize: Size(
-                              MediaQuery.of(context).size.width * 0.2,
+                              MediaQuery.of(context).size.width * 0.25,
                               double.infinity),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8))),
                       child: const Text(
-                        "pilih file",
+                        "pilih",
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -221,22 +226,20 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
                       print('Tidak ada gambar yang dipilih');
                       return;
                     }
-
                     if (namakegiatanController.text.isEmpty ||
                         tanggalkegiatanController.text.isEmpty ||
                         lokasikegiatanController.text.isEmpty) {
                       print('Semua kolom harus diisi');
                       return;
                     }
-
                     DateTime parsedDate;
                     try {
-                      parsedDate = DateFormat('dd/MM/yyyy').parseStrict(tanggalkegiatanController.text);
+                      parsedDate = DateFormat('dd/MM/yyyy')
+                          .parseStrict(tanggalkegiatanController.text);
                     } catch (e) {
                       print('Format tanggal tidak valid');
                       return;
                     }
-
                     final docRef = FirebaseFirestore.instance
                         .collection('jadwal_olahraga')
                         .doc();
@@ -256,21 +259,21 @@ class _TambahJadwalOlahragaState extends State<TambahJadwalOlahraga> {
                       imageUrl,
                     );
                     showCustomDialog(
-                    context,
-                    icon: Icons.check_circle_outline_sharp,
-                    title: "Berhasil",
-                    message: "Berhasil Menambah Jadwal",
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NavbarAdmin(
-                            initialIndex: 0,
+                      context,
+                      icon: Icons.check_circle_outline_sharp,
+                      title: "Berhasil",
+                      message: "Berhasil Menambah Jadwal",
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NavbarAdmin(
+                              initialIndex: 0,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
                   } catch (e) {
                     print('Error menambah jadwal: $e');
                   }

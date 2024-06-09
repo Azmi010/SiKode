@@ -25,7 +25,7 @@ void showCustomDialog(
           Text(
             title,
             style: const TextStyle(
-              fontFamily: 'poppins',
+              fontFamily: 'Montserrat',
               fontSize: 26,
               fontWeight: FontWeight.bold,
             ),
@@ -34,7 +34,7 @@ void showCustomDialog(
           Text(
             message,
             style: const TextStyle(
-              fontFamily: 'poppins',
+              fontFamily: 'Montserrat',
             ),
           ),
           const SizedBox(height: 44),
@@ -53,7 +53,7 @@ void showCustomDialog(
             child: const Text(
               'OK',
               style: TextStyle(
-                fontFamily: 'poppins',
+                fontFamily: 'Montserrat',
                 color: Colors.white,
               ),
             ),

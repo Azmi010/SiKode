@@ -1,8 +1,8 @@
-import "package:flutter/material.dart";
-import "package:provider/provider.dart";
-import "package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart";
-import "package:sikode/views/admin/edit_jadwal_olahraga.dart";
-import "package:sikode/views/admin/tambah_jadwal_olahraga.dart";
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
+import 'package:sikode/views/admin/edit_jadwal_olahraga.dart';
+import 'package:sikode/views/admin/tambah_jadwal_olahraga.dart';
 
 class JadwalOlahragaAdmin extends StatelessWidget {
   const JadwalOlahragaAdmin({super.key});
@@ -22,23 +22,16 @@ class JadwalOlahragaAdmin extends StatelessWidget {
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: jadwalOlahragaViewModel.jadwalOlahragaList.length,
-                itemBuilder: (context, index) {
-                  final jadwalOlahraga =
-                      jadwalOlahragaViewModel.jadwalOlahragaList[index];
-                  final formattedWaktu =
-                      '${jadwalOlahraga.getDayName()}, ${jadwalOlahraga.waktu.day} ${jadwalOlahraga.getMonthName()} ${jadwalOlahraga.waktu.year}';
-                  return Column(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+            child: Column(
+              children: [
+                for (var jadwalOlahraga in jadwalOlahragaViewModel.jadwalOlahragaList)
+                  Column(
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
                       Text(
                         jadwalOlahraga.nama,
                         style: const TextStyle(
@@ -58,23 +51,54 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(15),
+                                Container(
+                                  height: 180,
+                                  decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15),
+                                    ),
                                   ),
-                                  child: Image.network(
-                                    jadwalOlahraga.imageUrl,
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(15),
+                                    ),
+                                    child: Image.network(
+                                      jadwalOlahraga.imageUrl,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress.expectedTotalBytes != null
+                                                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                                  : null,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                        debugPrint('Image load error: $exception');
+                                        return const Center(
+                                          child: Icon(
+                                            Icons.broken_image,
+                                            size: 50,
+                                            color: Colors.grey,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
                                             child: Row(
@@ -87,7 +111,7 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                                                   width: 14,
                                                 ),
                                                 Text(
-                                                  formattedWaktu,
+                                                  '${jadwalOlahraga.getDayName()}, ${jadwalOlahraga.waktu.day} ${jadwalOlahraga.getMonthName()} ${jadwalOlahraga.waktu.year}',
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                     fontSize: 14,
@@ -103,20 +127,12 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditJadwalOlahraga(
-                                                          judul: jadwalOlahraga
-                                                              .nama,
-                                                          waktu: jadwalOlahraga
-                                                              .waktu
-                                                              .toString(),
-                                                          lokasi: jadwalOlahraga
-                                                              .lokasi,
-                                                          imageUrl:
-                                                              jadwalOlahraga
-                                                                  .imageUrl,
-                                                          docId: jadwalOlahraga
-                                                              .id),
+                                                  builder: (context) => EditJadwalOlahraga(
+                                                      judul: jadwalOlahraga.nama,
+                                                      waktu: jadwalOlahraga.waktu.toString(),
+                                                      lokasi: jadwalOlahraga.lokasi,
+                                                      imageUrl: jadwalOlahraga.imageUrl,
+                                                      docId: jadwalOlahraga.id),
                                                 ),
                                               );
                                             },
@@ -129,8 +145,7 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
                                       child: Row(
                                         children: [
                                           const Icon(
@@ -160,40 +175,38 @@ class JadwalOlahragaAdmin extends StatelessWidget {
                         ),
                       ),
                     ],
-                  );
-                },
-              ),
+                  ),
+                const SizedBox(height: 30),
+              ],
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: () {
-                  {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TambahJadwalOlahraga(),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  width: 50,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(1, 188, 177, 1), // Warna tombol
+          ),
+          Positioned(
+            bottom: 25,
+            right: 30,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TambahJadwalOlahraga(),
                   ),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white, // Warna ikon di dalam tombol
-                  ),
+                );
+              },
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromRGBO(1, 188, 177, 1),
+                ),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
