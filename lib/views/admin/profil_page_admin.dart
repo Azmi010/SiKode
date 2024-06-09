@@ -6,7 +6,6 @@ import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
 import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
-import 'package:sikode/viewmodels/homepage_viewmodel.dart';
 import 'package:sikode/viewmodels/profil_viewmodel.dart';
 
 class Profil extends StatelessWidget {
@@ -152,11 +151,6 @@ class Profil extends StatelessWidget {
                                 const Color.fromRGBO(1, 193, 139, 1),
                             onPressed: () async {
                               await profileViewModel.updateUserProfile();
-                              final homePageViewModel =
-                                  Provider.of<HomePageViewModel>(context,
-                                      listen: false);
-                              homePageViewModel.updateUserName(
-                                  profileViewModel.namaLengkapController.text);
                               showCustomDialog(
                                 context,
                                 icon: Icons.check_circle_outline_sharp,
