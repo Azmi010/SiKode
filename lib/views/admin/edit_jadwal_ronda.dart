@@ -62,7 +62,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
         title: Text(
           'Hari ${widget.title}',
           style: const TextStyle(
-            fontFamily: 'Montserrat',
             fontWeight: FontWeight.w600,
             color: Colors.white,
             fontSize: 20,
@@ -84,7 +83,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
               child: Text(
                 'Pilih Jumlah Orang',
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -110,7 +108,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
                 style: const TextStyle(
                   color: Color.fromRGBO(1, 193, 139, 1),
                   fontSize: 14,
-                  fontFamily: 'Montserrat',
                 ),
                 icon: const Icon(Icons.arrow_drop_down),
                 iconSize: 24,
@@ -177,18 +174,29 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
     List<String> orangList =
         _namaControllers.map((controller) => controller.text).toList();
 
-    FirebaseFirestore.instance
-        .collection('jadwal_ronda')
-        .doc('RW 0${widget.selectedRW}')
-        .collection('hari')
-        .doc(widget.title)
-        .update({'orang': orangList});
+    bool hasEmptyField = orangList.any((name) => name.isEmpty);
 
-    showCustomDialog(context,
-        icon: Icons.check_circle_outline_sharp,
-        title: "Berhasil",
-        message: "Berhasil Menambahkan Data", onPressed: () {
-      Navigator.of(context).pop();
-    });
+    if (hasEmptyField) {
+      showCustomDialog(context,
+          icon: Icons.error_outline,
+          title: "Error",
+          message: "Semua kolom nama harus diisi", onPressed: () {
+        Navigator.of(context).pop();
+      });
+    } else {
+      FirebaseFirestore.instance
+          .collection('jadwal_ronda')
+          .doc('RW 0${widget.selectedRW}')
+          .collection('hari')
+          .doc(widget.title)
+          .update({'orang': orangList});
+
+      showCustomDialog(context,
+          icon: Icons.check_circle_outline_sharp,
+          title: "Berhasil",
+          message: "Berhasil Menambahkan Data", onPressed: () {
+        Navigator.of(context).pop();
+      });
+    }
   }
 }

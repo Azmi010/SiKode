@@ -45,7 +45,7 @@ class InformasiWarga extends StatelessWidget {
                         alignment: Alignment.topLeft,
                         child: SizedBox(
                           width: 375,
-                          height: 230,
+                          height: 250,
                           child: Card(
                             color: const Color.fromRGBO(1, 188, 177, 1),
                             elevation: 4,
