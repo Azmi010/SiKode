@@ -262,7 +262,8 @@ class HomePageWarga extends StatelessWidget {
                 ...homeViewModel.getEventsForDay(selectedDay).map((event) {
                   return ListTile(
                     leading: const Icon(
-                      Icons.work,
+                      Icons.calendar_today,
+                      size: 20,
                       color: Color.fromRGBO(1, 188, 177, 1),
                     ),
                     contentPadding: EdgeInsets.zero,
