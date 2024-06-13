@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/firebase_options.dart';
 import 'package:sikode/services/auth_service.dart';
+import 'package:sikode/splash.dart';
 import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
@@ -36,7 +37,7 @@ class SiKode extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: const SplashScreen(),
     );
   }
 }
