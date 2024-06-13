@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/imagepicker.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/views/admin/bottom_navbar_admin.dart';
@@ -20,6 +20,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   late TextEditingController judulcontroller;
   late TextEditingController deskripsicontroller;
   File? _imageFile;
+  String _fileName = "Tidak ada file yang dipilih";
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
   }
 
   Future<void> _showPickerDialog(BuildContext context) async {
-    final pickedFile = await showDialog<XFile?>(
+    final pickedFile = await showDialog<File?>(
       context: context,
       builder: (BuildContext context) {
         return const ImagePickerDialog();
@@ -46,6 +47,7 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
+        _fileName = pickedFile.path.split('/').last;
       });
     }
   }
@@ -133,32 +135,41 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
                   ),
                   borderRadius: BorderRadius.circular(8)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 2),
-                  const Text(
-                    "Tidak ada file yang dipilih",
-                    style: TextStyle(
-                      color: Color.fromRGBO(1, 193, 139, 1),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(
+                      width: 2,
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await _showPickerDialog(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(228, 228, 228, 1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8))),
-                    child: const Text(
-                      "pilih file",
-                      style: TextStyle(color: Colors.black),
+                    Expanded(
+                      child: Text(
+                        _fileName,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(1, 193, 139, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await _showPickerDialog(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromRGBO(228, 228, 228, 1),
+                          fixedSize: Size(
+                              MediaQuery.of(context).size.width * 0.25,
+                              double.infinity),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                      child: const Text(
+                        "pilih",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
             ),
             const SizedBox(
               height: 50,
@@ -184,12 +195,21 @@ class _TambahInformasiAdminState extends State<TambahInformasiAdmin> {
                     deskripsicontroller.text,
                     imageUrl,
                   );
-
-                  Navigator.push(
+                  showCustomDialog(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const NavbarAdmin(initialIndex: 1),
-                    ),
+                    icon: Icons.check_circle_outline_sharp,
+                    title: "Berhasil",
+                    message: "Berhasil Menambah Informasi",
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NavbarAdmin(
+                            initialIndex: 1,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 }
               },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/textformfield.dart';
@@ -131,27 +132,57 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const NavbarAdmin(
-                                          initialIndex: 0,
-                                        )),
+                                    builder: (context) =>
+                                        const NavbarAdmin(initialIndex: 0)),
                                 (route) => false);
+                            // showCustomDialog(
+                            //   context,
+                            //   icon: Icons.check_circle_outline_sharp,
+                            //   title: "Berhasil",
+                            //   message: "Login Berhasil",
+                            //   onPressed: () {
+                            //     Navigator.pushAndRemoveUntil(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //           builder: (context) => const NavbarAdmin(
+                            //             initialIndex: 0,
+                            //           ),
+                            //         ),
+                            //         (route) => false);
+                            //   },
+                            // );
                           } else if (loginViewModel.role == 'warga') {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const NavbarWarga(
-                                          initialIndex: 0,
-                                        )),
+                                    builder: (context) =>
+                                        const NavbarWarga(initialIndex: 0)),
                                 (route) => false);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Peran pengguna tidak dikenali.')));
+                              const SnackBar(
+                                content: Text(
+                                  "Akun Belum Terdaftar",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Colors.black,
+                              ),
+                            );
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Login gagal. Cek kembali email dan kata sandi.')));
+                            const SnackBar(
+                              content: Text(
+                                "Login Gagal, Periksa email dan password anda!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                            ),
+                          );
                         }
                       }
                     },
@@ -172,8 +203,10 @@ class _LoginPageState extends State<LoginPage> {
                   text: "Daftar",
                   backgroundColor: const Color.fromRGBO(160, 130, 201, 1),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Daftar()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Daftar()));
                   },
                 ),
               ],

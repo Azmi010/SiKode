@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
+import 'package:sikode/views/warga/bottom_navbar_warga.dart';
 
 class Daftar extends StatefulWidget {
   const Daftar({super.key});
@@ -151,18 +153,20 @@ class _DaftarState extends State<Daftar> {
                           'warga',
                         );
                         if (success) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NavbarWarga(initialIndex: 0)),
+                              (route) => false);
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(registerViewModel.errorMessage ??
-                                  'Pendaftaran gagal'),
-                            ),
+                          showCustomDialog(
+                            context,
+                            icon: Icons.close_rounded,
+                            title: "Gagal",
+                            message: "Gagal Melakukan Pendaftaran",
+                            iconColor: Colors.red,
+                            onPressed: () {},
                           );
                         }
                       }

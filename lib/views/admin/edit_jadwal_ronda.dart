@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
+import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 
 class EditJadwalRonda extends StatefulWidget {
   final String title;
-  const EditJadwalRonda({super.key, required this.title});
+  final int selectedRW;
+  const EditJadwalRonda(
+      {super.key, required this.title, required this.selectedRW});
 
   @override
   State<EditJadwalRonda> createState() => _EditJadwalRondaState();
@@ -12,23 +16,43 @@ class EditJadwalRonda extends StatefulWidget {
 
 class _EditJadwalRondaState extends State<EditJadwalRonda> {
   int _jumlahOrang = 1;
-
-  late TextEditingController namaController;
-  late List<CustomTextField> _namaControllers;
+  List<TextEditingController> _namaControllers = [];
 
   @override
   void initState() {
     super.initState();
-    namaController = TextEditingController();
-    _namaControllers = [
-      CustomTextField(controller: namaController, hintText: 'Masukkan Nama')
-    ];
+    _fetchExistingData();
   }
 
   @override
   void dispose() {
-    namaController.dispose();
+    for (var controller in _namaControllers) {
+      controller.dispose();
+    }
     super.dispose();
+  }
+
+  void _fetchExistingData() async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('jadwal_ronda')
+        .doc('RW 0${widget.selectedRW}')
+        .collection('hari')
+        .doc(widget.title)
+        .get();
+
+    if (doc.exists) {
+      List<String> existingData = List<String>.from(doc['orang']);
+      setState(() {
+        _jumlahOrang = existingData.length;
+        _namaControllers = existingData
+            .map((name) => TextEditingController(text: name))
+            .toList();
+      });
+    } else {
+      setState(() {
+        _namaControllers = [TextEditingController()];
+      });
+    }
   }
 
   @override
@@ -38,7 +62,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
         title: Text(
           'Hari ${widget.title}',
           style: const TextStyle(
-            fontFamily: 'Montserrat',
             fontWeight: FontWeight.w600,
             color: Colors.white,
             fontSize: 20,
@@ -60,7 +83,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
               child: Text(
                 'Pilih Jumlah Orang',
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -86,7 +108,6 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
                 style: const TextStyle(
                   color: Color.fromRGBO(1, 193, 139, 1),
                   fontSize: 14,
-                  fontFamily: 'Montserrat',
                 ),
                 icon: const Icon(Icons.arrow_drop_down),
                 iconSize: 24,
@@ -110,7 +131,10 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      _namaControllers[index],
+                      CustomTextField(
+                        controller: _namaControllers[index],
+                        hintText: 'Masukkan Nama',
+                      ),
                       const SizedBox(height: 30),
                     ],
                   );
@@ -123,9 +147,11 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
             CustomButton(
               text: 'Simpan',
               backgroundColor: const Color.fromRGBO(1, 193, 139, 1),
-              onPressed: () {},
+              onPressed: _saveData,
             ),
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
           ],
         ),
       ),
@@ -135,11 +161,42 @@ class _EditJadwalRondaState extends State<EditJadwalRonda> {
   void _updateCustomTextFields() {
     if (_jumlahOrang > _namaControllers.length) {
       for (int i = _namaControllers.length; i < _jumlahOrang; i++) {
-        _namaControllers.add(CustomTextField(
-            controller: TextEditingController(), hintText: 'Masukkan Nama'));
+        _namaControllers.add(
+          TextEditingController(),
+        );
       }
     } else if (_jumlahOrang < _namaControllers.length) {
       _namaControllers.removeRange(_jumlahOrang, _namaControllers.length);
+    }
+  }
+
+  void _saveData() {
+    List<String> orangList =
+        _namaControllers.map((controller) => controller.text).toList();
+
+    bool hasEmptyField = orangList.any((name) => name.isEmpty);
+
+    if (hasEmptyField) {
+      showCustomDialog(context,
+          icon: Icons.error_outline,
+          title: "Error",
+          message: "Semua kolom nama harus diisi", onPressed: () {
+        Navigator.of(context).pop();
+      });
+    } else {
+      FirebaseFirestore.instance
+          .collection('jadwal_ronda')
+          .doc('RW 0${widget.selectedRW}')
+          .collection('hari')
+          .doc(widget.title)
+          .update({'orang': orangList});
+
+      showCustomDialog(context,
+          icon: Icons.check_circle_outline_sharp,
+          title: "Berhasil",
+          message: "Berhasil Menambahkan Data", onPressed: () {
+        Navigator.of(context).pop();
+      });
     }
   }
 }

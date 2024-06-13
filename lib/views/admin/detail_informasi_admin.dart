@@ -17,7 +17,6 @@ class DetailInformasiAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -31,54 +30,93 @@ class DetailInformasiAdmin extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(1, 188, 177, 1),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Container(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
-                width: 375,
-                height: 560,
-                child: Card(
-                  color: const Color.fromRGBO(1, 188, 177, 1),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(15),
-                        ),
-                        child: Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                        ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 375,
+                    child: Card(
+                      color: const Color.fromRGBO(1, 188, 177, 1),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          deskripsi,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            height: 200,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(15),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(15),
+                              ),
+                              child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress.expectedTotalBytes != null
+                                            ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                            : null,
+                                      ),
+                                    );
+                                  }
+                                },
+                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                  debugPrint('Image load error: $exception');
+                                  return const Center(
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      size: 50,
+                                      color: Colors.grey,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                          maxLines: null,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              deskripsi,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              maxLines: null,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 35),
+              ],
             ),
-            const SizedBox(height: 35),
-            Align(
-              alignment: Alignment.centerRight,
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: const EdgeInsets.all(20),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -94,7 +132,6 @@ class DetailInformasiAdmin extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 5),
                   width: 50,
                   height: 50,
                   decoration: const BoxDecoration(
@@ -107,9 +144,9 @@ class DetailInformasiAdmin extends StatelessWidget {
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
