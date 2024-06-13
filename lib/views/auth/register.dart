@@ -5,6 +5,7 @@ import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
+import 'package:sikode/views/warga/bottom_navbar_warga.dart';
 
 class Daftar extends StatefulWidget {
   const Daftar({super.key});
@@ -152,20 +153,12 @@ class _DaftarState extends State<Daftar> {
                           'warga',
                         );
                         if (success) {
-                          showCustomDialog(
-                            context,
-                            icon: Icons.check_circle_outline_sharp,
-                            title: "Berhasil",
-                            message: "Login Berhasil",
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
-                                ),
-                              );
-                            },
-                          );
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NavbarWarga(initialIndex: 0)),
+                              (route) => false);
                         } else {
                           showCustomDialog(
                             context,

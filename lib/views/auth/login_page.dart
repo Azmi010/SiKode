@@ -129,58 +129,60 @@ class _LoginPageState extends State<LoginPage> {
                             emailController.text, kataSandiController.text);
                         if (success) {
                           if (loginViewModel.role == 'admin') {
-                            showCustomDialog(
-                              context,
-                              icon: Icons.check_circle_outline_sharp,
-                              title: "Berhasil",
-                              message: "Login Berhasil",
-                              onPressed: () {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const NavbarAdmin(
-                                        initialIndex: 0,
-                                      ),
-                                    ),
-                                    (route) => false);
-                              },
-                            );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavbarAdmin(initialIndex: 0)),
+                                (route) => false);
+                            // showCustomDialog(
+                            //   context,
+                            //   icon: Icons.check_circle_outline_sharp,
+                            //   title: "Berhasil",
+                            //   message: "Login Berhasil",
+                            //   onPressed: () {
+                            //     Navigator.pushAndRemoveUntil(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //           builder: (context) => const NavbarAdmin(
+                            //             initialIndex: 0,
+                            //           ),
+                            //         ),
+                            //         (route) => false);
+                            //   },
+                            // );
                           } else if (loginViewModel.role == 'warga') {
-                            showCustomDialog(
-                              context,
-                              icon: Icons.check_circle_outline_sharp,
-                              title: "Berhasil",
-                              message: "Login Berhasil",
-                              onPressed: () {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const NavbarWarga(
-                                        initialIndex: 0,
-                                      ),
-                                    ),
-                                    (route) => false);
-                              },
-                            );
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const NavbarWarga(initialIndex: 0)),
+                                (route) => false);
                           } else {
-                            showCustomDialog(
-                              context,
-                              icon: Icons.close_rounded,
-                              title: "Terjadi Kesalahan",
-                              message: "Akun Belum Terdaftar",
-                              iconColor: Colors.red,
-                              onPressed: () {},
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Akun Belum Terdaftar",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Colors.black,
+                              ),
                             );
                           }
                         } else {
-                          showCustomDialog(
-                              context,
-                              icon: Icons.close_rounded,
-                              title: "Login Gagal",
-                              message: "Periksa Kembali Email dan Password",
-                              iconColor: Colors.red,
-                              onPressed: () {},
-                            );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Login Gagal, Periksa email dan password anda!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                            ),
+                          );
                         }
                       }
                     },

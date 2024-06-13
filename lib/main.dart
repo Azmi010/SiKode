@@ -8,7 +8,6 @@ import 'package:sikode/viewmodels/informasi_viewmodel.dart';
 import 'package:sikode/viewmodels/jadwal_olahraga_viewmodel.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
-import 'package:sikode/views/auth/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
