@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sikode/utils/popup.dart';
 import 'package:sikode/viewmodels/login_viewmodel.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
 import 'package:sikode/utils/textformfield.dart';
@@ -108,9 +107,6 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text(
                       'Lupa kata sandi?',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                      ),
                     ),
                   ),
                 ),
@@ -135,22 +131,6 @@ class _LoginPageState extends State<LoginPage> {
                                     builder: (context) =>
                                         const NavbarAdmin(initialIndex: 0)),
                                 (route) => false);
-                            // showCustomDialog(
-                            //   context,
-                            //   icon: Icons.check_circle_outline_sharp,
-                            //   title: "Berhasil",
-                            //   message: "Login Berhasil",
-                            //   onPressed: () {
-                            //     Navigator.pushAndRemoveUntil(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //           builder: (context) => const NavbarAdmin(
-                            //             initialIndex: 0,
-                            //           ),
-                            //         ),
-                            //         (route) => false);
-                            //   },
-                            // );
                           } else if (loginViewModel.role == 'warga') {
                             Navigator.pushAndRemoveUntil(
                                 context,
@@ -192,9 +172,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Text(
                   'Belum memiliki akun?',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                  ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -204,9 +181,11 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: const Color.fromRGBO(160, 130, 201, 1),
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Daftar()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Daftar(),
+                      ),
+                    );
                   },
                 ),
               ],

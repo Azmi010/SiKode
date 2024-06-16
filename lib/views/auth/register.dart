@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sikode/utils/elevatedbutton.dart';
-import 'package:sikode/utils/popup.dart';
 import 'package:sikode/utils/textformfield.dart';
 import 'package:sikode/viewmodels/register_viewmodel.dart';
 import 'package:sikode/views/auth/login_page.dart';
@@ -49,7 +48,6 @@ class _DaftarState extends State<Daftar> {
         title: const Text(
           "Pendaftaran",
           style: TextStyle(
-            fontFamily: 'Montserrat',
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -70,7 +68,6 @@ class _DaftarState extends State<Daftar> {
                 const Text(
                   "Pendaftaran",
                   style: TextStyle(
-                    fontFamily: 'Montserrat',
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
@@ -156,17 +153,21 @@ class _DaftarState extends State<Daftar> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NavbarWarga(initialIndex: 0)),
+                                builder: (context) =>
+                                    const NavbarWarga(initialIndex: 0),
+                              ),
                               (route) => false);
                         } else {
-                          showCustomDialog(
-                            context,
-                            icon: Icons.close_rounded,
-                            title: "Gagal",
-                            message: "Gagal Melakukan Pendaftaran",
-                            iconColor: Colors.red,
-                            onPressed: () {},
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Gagal Melakukan Pendaftaran!",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              backgroundColor: Colors.black,
+                            ),
                           );
                         }
                       }
@@ -178,7 +179,6 @@ class _DaftarState extends State<Daftar> {
                 const Text(
                   "Sudah memiliki akun?",
                   style: TextStyle(
-                    fontFamily: 'Montserrat',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),
