@@ -269,6 +269,31 @@ class HomePageAdmin extends StatelessWidget {
                     ),
                     contentPadding: EdgeInsets.zero,
                     title: Text(event.title),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Color.fromRGBO(1, 188, 177, 1),
+                          ),
+                          onPressed: () {
+                            _showEditEventDialog(
+                                context, selectedDay, homeViewModel, event);
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Color.fromRGBO(1, 188, 177, 1),
+                          ),
+                          onPressed: () async {
+                            homeViewModel.removeEvent(event);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 }),
                 const SizedBox(height: 10),
@@ -353,6 +378,44 @@ class HomePageAdmin extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showEditEventDialog(BuildContext context, DateTime selectedDay,
+      HomePageViewModel homeViewModel, Event event) {
+    final titleController = TextEditingController(text: event.title);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Event'),
+          content: TextField(
+            controller: titleController,
+            decoration: const InputDecoration(labelText: 'Event Title'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final updatedEvent = Event(
+                  id: event.id,
+                  title: titleController.text,
+                  date: event.date,
+                );
+                await homeViewModel.editEvent(updatedEvent);
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

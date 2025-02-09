@@ -44,6 +44,12 @@ class JadwalOlahragaViewModel extends ChangeNotifier {
         'lokasi': lokasi,
         'imageUrl': imageUrl,
       });
+
+      await FirebaseFirestore.instance.collection('events').doc(docId).set({
+        'title': nama,
+        'date': waktu,
+      });
+
       await fetchJadwalOlahraga();
     } catch (e) {
       print('Error adding informasi: $e');
@@ -58,6 +64,12 @@ class JadwalOlahragaViewModel extends ChangeNotifier {
         'lokasi': lokasi,
         'imageUrl': imageUrl,
       });
+
+      await FirebaseFirestore.instance.collection('events').doc(docId).update({
+        'title': nama,
+        'date': waktu,
+      });
+      
       await fetchJadwalOlahraga();
     } catch (e) {
       print('Error updating informasi: $e');

@@ -55,6 +55,24 @@ class HomePageViewModel extends ChangeNotifier {
     await FirebaseFirestore.instance.collection('events').add(event.toMap());
   }
 
+  Future<void> editEvent(Event updatedEvent) async {
+    final eventDate = DateTime(
+        updatedEvent.date.year, updatedEvent.date.month, updatedEvent.date.day);
+    if (events[eventDate] != null) {
+      final index =
+          events[eventDate]!.indexWhere((e) => e.id == updatedEvent.id);
+      if (index != -1) {
+        events[eventDate]![index] = updatedEvent;
+      }
+    }
+    notifyListeners();
+
+    await _firestore
+        .collection('events')
+        .doc(updatedEvent.id)
+        .update(updatedEvent.toMap());
+  }
+
   List<Event> getEventsForDay(DateTime day) {
     final date = DateTime(day.year, day.month, day.day);
     return events[date] ?? [];
